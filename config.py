@@ -27,11 +27,9 @@ IDEAS_COUNT = 10
 # Max RSS items to fetch per feed (before filtering)
 RSS_MAX_ITEMS_PER_FEED = 15
 
-# OpenAI model for idea-generation agents (analyst, trend scout, strategist, editor)
+# OpenAI model used by all agents
 OPENAI_MODEL = "gpt-5.2"
-
-# OpenAI model for article-writing agents (researcher, writer, fact checker, evaluator)
-OPENAI_MODEL_PRO = "gpt-5.2-pro"
+OPENAI_MODEL_PRO = OPENAI_MODEL
 
 # --- Content creation settings ---
 
