@@ -39,17 +39,21 @@ from config import ANALYTICS_DAYS_BACK
 
 @st.cache_data(ttl=300)
 def _check_connections() -> dict:
-    """Prüft GA4-, GSC- und RSS-Verbindungen. Gecacht für 5 Minuten."""
-    from data.google_analytics import _get_client
-    from data.search_console import _get_service
+    """Prüft GA4-, GSC- und RSS-Verbindungen mit echten API-Calls. Gecacht für 5 Minuten."""
+    from data.google_analytics import fetch_top_pages
+    from data.search_console import fetch_top_queries
     from data.rss_reader import _fetch_feed_raw
     from config import RSS_FEEDS
 
     creds_file = os.getenv("GOOGLE_CREDENTIALS_FILE", "credentials.json")
+    property_id = os.getenv("GA4_PROPERTY_ID")
+    site_url = os.getenv("GSC_SITE_URL")
 
     ga4_error = None
     try:
-        _get_client(creds_file)
+        if not property_id:
+            raise ValueError("GA4_PROPERTY_ID nicht gesetzt")
+        fetch_top_pages(property_id, creds_file, days_back=7, limit=1)
         ga4_ok = True
     except Exception as e:
         ga4_ok = False
@@ -57,7 +61,9 @@ def _check_connections() -> dict:
 
     gsc_error = None
     try:
-        _get_service(creds_file)
+        if not site_url:
+            raise ValueError("GSC_SITE_URL nicht gesetzt")
+        fetch_top_queries(site_url, creds_file, days_back=7, limit=1)
         gsc_ok = True
     except Exception as e:
         gsc_ok = False
