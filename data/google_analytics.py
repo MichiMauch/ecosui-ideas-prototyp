@@ -18,6 +18,27 @@ from google.analytics.data_v1beta.types import (
 from google.oauth2 import service_account
 
 
+def _parse_creds_json(s: str) -> dict:
+    """Parse credentials JSON, auch wenn literale Newlines in String-Values stecken."""
+    in_string = False
+    escaped = False
+    out = []
+    for c in s:
+        if escaped:
+            out.append(c); escaped = False
+        elif c == "\\" and in_string:
+            out.append(c); escaped = True
+        elif c == '"':
+            in_string = not in_string; out.append(c)
+        elif c == "\n" and in_string:
+            out.append("\\n")
+        elif c == "\r" and in_string:
+            out.append("\\r")
+        else:
+            out.append(c)
+    return json.loads("".join(out))
+
+
 def _get_client(credentials_file: str) -> BetaAnalyticsDataClient:
     creds_json = os.getenv("GOOGLE_CREDENTIALS_JSON")
     # Fallback: GOOGLE_CREDENTIALS_FILE enthält direkt JSON-Inhalt (z.B. Streamlit Cloud)
@@ -25,7 +46,7 @@ def _get_client(credentials_file: str) -> BetaAnalyticsDataClient:
         creds_json = credentials_file
     if creds_json:
         credentials = service_account.Credentials.from_service_account_info(
-            json.loads(creds_json),
+            _parse_creds_json(creds_json),
             scopes=["https://www.googleapis.com/auth/analytics.readonly"],
         )
     else:
