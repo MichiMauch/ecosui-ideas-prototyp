@@ -14,6 +14,9 @@ from google.oauth2 import service_account
 
 def _get_service(credentials_file: str):
     creds_json = os.getenv("GOOGLE_CREDENTIALS_JSON")
+    # Fallback: GOOGLE_CREDENTIALS_FILE enthält direkt JSON-Inhalt (z.B. Streamlit Cloud)
+    if not creds_json and credentials_file.strip().startswith("{"):
+        creds_json = credentials_file
     if creds_json:
         credentials = service_account.Credentials.from_service_account_info(
             json.loads(creds_json),
