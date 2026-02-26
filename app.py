@@ -47,17 +47,21 @@ def _check_connections() -> dict:
 
     creds_file = os.getenv("GOOGLE_CREDENTIALS_FILE", "credentials.json")
 
+    ga4_error = None
     try:
         _get_client(creds_file)
         ga4_ok = True
-    except Exception:
+    except Exception as e:
         ga4_ok = False
+        ga4_error = str(e)
 
+    gsc_error = None
     try:
         _get_service(creds_file)
         gsc_ok = True
-    except Exception:
+    except Exception as e:
         gsc_ok = False
+        gsc_error = str(e)
 
     _display = {"NZZ Wirtschaft": "NZZ", "SRF Wirtschaft": "SRF",
                 "Tages-Anzeiger Wirtschaft": "Tagi"}
@@ -70,7 +74,8 @@ def _check_connections() -> dict:
         except Exception:
             rss_status[label] = False
 
-    return {"ga4": ga4_ok, "gsc": gsc_ok, "rss": rss_status}
+    return {"ga4": ga4_ok, "gsc": gsc_ok, "rss": rss_status,
+            "ga4_error": ga4_error, "gsc_error": gsc_error}
 
 
 st.set_page_config(
@@ -103,6 +108,11 @@ with st.sidebar:
     for name, ok in conn["rss"].items():
         lines.append(f"- {_ic(ok)} RSS: {name}")
     st.markdown("\n".join(lines))
+
+    if conn.get("ga4_error"):
+        st.caption(f"GA4: {conn['ga4_error']}")
+    if conn.get("gsc_error"):
+        st.caption(f"GSC: {conn['gsc_error']}")
 
     st.markdown(
         """
