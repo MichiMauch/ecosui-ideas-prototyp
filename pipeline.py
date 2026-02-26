@@ -81,7 +81,11 @@ def run(status_callback=None, token_callback=None) -> PipelineResult:
     gsc_queries = []
     rss_articles = []
 
-    has_credentials = os.path.exists(credentials_file) or bool(os.getenv("GOOGLE_CREDENTIALS_JSON"))
+    has_credentials = (
+        os.path.exists(credentials_file)
+        or bool(os.getenv("GOOGLE_CREDENTIALS_JSON"))
+        or credentials_file.strip().startswith("{")
+    )
 
     def fetch_ga4():
         if not property_id or not has_credentials:
