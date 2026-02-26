@@ -22,6 +22,7 @@ import agents.researcher as researcher_agent
 import agents.writer as writer_agent
 import agents.fact_checker as fact_checker_agent
 import agents.evaluator as evaluator_agent
+import agents.social_writer as social_writer_agent
 from config import (
     BRAND_VOICE,
     FORBIDDEN_PHRASES,
@@ -38,6 +39,7 @@ class ContentResult:
     evaluation: dict = field(default_factory=dict)
     research_notes: str = ""
     revision_count: int = 0
+    social_snippets: dict = field(default_factory=dict)
     errors: list[str] = field(default_factory=list)
 
 
@@ -46,6 +48,7 @@ def run(
     rss_articles: list[dict],
     gsc_queries: list[dict],
     status_callback=None,
+    target_words: int | None = None,
 ) -> ContentResult:
     """
     Execute the full article-creation pipeline for a single idea.
@@ -55,6 +58,7 @@ def run(
         rss_articles:    Raw RSS articles from the data pipeline
         gsc_queries:     Raw GSC queries from the data pipeline
         status_callback: Optional callable(msg: str) for progress updates
+        target_words:    Target word count (overrides config default)
 
     Returns:
         ContentResult with finished article, evaluation scores, and metadata
@@ -65,6 +69,7 @@ def run(
             status_callback(msg)
 
     result = ContentResult()
+    words = target_words or ARTICLE_TARGET_WORDS
 
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
@@ -102,7 +107,7 @@ def run(
                 result.research_notes,
                 BRAND_VOICE,
                 FORBIDDEN_PHRASES,
-                target_words=ARTICLE_TARGET_WORDS,
+                target_words=words,
                 revision_feedback=revision_feedback,
             )
         except Exception as e:
@@ -142,6 +147,16 @@ def run(
         if not revision_feedback:
             # No actionable feedback — stop looping
             break
+
+    # ── Social Media Snippets ─────────────────────────────────────────────────
+    if result.evaluation.get("passed", False) and result.article:
+        status("Social Media Snippets werden erstellt...")
+        try:
+            result.social_snippets = social_writer_agent.run(
+                client, result.article, idea.get("title", "")
+            )
+        except Exception as e:
+            result.errors.append(f"Social-Writer-Fehler: {e}")
 
     status("Fertig!")
     return result

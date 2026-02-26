@@ -87,7 +87,7 @@ Research-Notes:
 {task_description}
 
 Der Artikel soll:
-- ca. {target_words} Wörter umfassen (mindestens {target_words - 150}, höchstens {target_words + 200})
+- ca. {target_words} Wörter umfassen (mindestens {int(target_words * 0.85)}, höchstens {int(target_words * 1.15)})
 - 4-6 thematische Abschnitte haben
 - mindestens 2 Abschnitte mit Aufzählungen oder nummerierten Listen enthalten
 - konkrete Zahlen, Namen und Fakten aus den Research-Notes verwenden (**fettgedruckt** hervorheben)

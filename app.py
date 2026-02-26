@@ -140,6 +140,26 @@ with st.sidebar:
 
     show_details = st.checkbox("Agent-Outputs anzeigen", value=False)
 
+    # ── Gemerkte Ideen ───────────────────────────────────────────────────────
+    _bookmarks = st.session_state.get("bookmarks", {})
+    if _bookmarks:
+        st.divider()
+        st.markdown("**🔖 Gemerkte Ideen:**")
+        for _bm_title, _bm_data in list(_bookmarks.items()):
+            _bm_cat = _bm_data.get("idea", {}).get("category", "")
+            _bm_note = _bm_data.get("note", "")
+            _col_t, _col_d = st.columns([5, 1])
+            with _col_t:
+                if _bm_cat:
+                    st.caption(_bm_cat)
+                st.markdown(f"**{_bm_title}**")
+                if _bm_note:
+                    st.caption(f"_{_bm_note}_")
+            with _col_d:
+                if st.button("🗑", key=f"rm_bm_{_bm_title}", help="Entfernen"):
+                    del st.session_state.bookmarks[_bm_title]
+                    st.rerun()
+
 # ── Session State Initialisation ──────────────────────────────────────────────
 if "pipeline_result" not in st.session_state:
     st.session_state.pipeline_result = None
@@ -151,6 +171,10 @@ if "eval_result" not in st.session_state:
     st.session_state.eval_result = None
 if "eval_idea_title" not in st.session_state:
     st.session_state.eval_idea_title = ""
+if "bookmarks" not in st.session_state:
+    st.session_state.bookmarks = {}
+if "target_words" not in st.session_state:
+    st.session_state.target_words = 1200
 
 # ── Main: Generate Button ──────────────────────────────────────────────────────
 col1, col2 = st.columns([1, 3])
@@ -332,14 +356,49 @@ if result is not None:
                         if not any([ga4_signal, gsc_signal, rss_signal]):
                             st.markdown("_Keine Signale verfügbar._")
 
-                    if st.button(
-                        "✍️ Artikel erstellen",
-                        key=f"create_article_{i}",
-                        use_container_width=False,
-                    ):
-                        st.session_state.selected_idea = idea
-                        st.session_state.content_result = None
-                        st.rerun()
+                    # Format-Auswahl
+                    _format_options = {
+                        "Kurzmeldung (~300 Wörter)": 300,
+                        "Standardartikel (~1200 Wörter)": 1200,
+                        "Analyse (~2500 Wörter)": 2500,
+                    }
+                    _selected_format = st.selectbox(
+                        "Artikel-Format",
+                        list(_format_options.keys()),
+                        index=1,
+                        key=f"format_{i}",
+                    )
+                    _target_words = _format_options[_selected_format]
+
+                    _col_btn, _col_bm = st.columns([3, 1])
+                    with _col_btn:
+                        if st.button(
+                            "✍️ Artikel erstellen",
+                            key=f"create_article_{i}",
+                            use_container_width=True,
+                        ):
+                            st.session_state.selected_idea = idea
+                            st.session_state.content_result = None
+                            st.session_state.target_words = _target_words
+                            st.rerun()
+
+                    _is_bookmarked = title in st.session_state.bookmarks
+                    with _col_bm:
+                        _bm_label = "🔖 Gemerkt" if _is_bookmarked else "🔖 Merken"
+                        if st.button(_bm_label, key=f"bm_{i}", use_container_width=True):
+                            if _is_bookmarked:
+                                del st.session_state.bookmarks[title]
+                            else:
+                                st.session_state.bookmarks[title] = {"idea": idea, "note": ""}
+
+                    if title in st.session_state.bookmarks:
+                        _note = st.text_input(
+                            "Notiz",
+                            key=f"note_{i}",
+                            placeholder="z.B. Für Anna, bis Do. / Winkel: Konsument",
+                            label_visibility="collapsed",
+                        )
+                        st.session_state.bookmarks[title]["note"] = _note
 
         st.divider()
 
@@ -484,6 +543,7 @@ if selected_idea is not None:
             rss_articles=rss_articles,
             gsc_queries=gsc_queries,
             status_callback=on_content_status,
+            target_words=st.session_state.get("target_words", 1200),
         )
         st.session_state.content_result = content_result
 
@@ -530,24 +590,54 @@ if selected_idea is not None:
         # Article content
         article = content_result.article
         if article:
-            st.title(article.get("title", ""))
+            with st.container(border=True):
+                st.title(article.get("title", ""))
 
-            lead = article.get("lead", "")
-            if lead:
-                st.markdown(f"_{lead}_")
-                st.divider()
+                lead = article.get("lead", "")
+                if lead:
+                    st.markdown(f"_{lead}_")
+                    st.divider()
 
-            for section in article.get("sections", []):
-                heading = section.get("heading", "")
-                content = section.get("content", "")
-                if heading:
-                    st.subheader(heading)
-                if content:
-                    st.markdown(content)
+                for section in article.get("sections", []):
+                    heading = section.get("heading", "")
+                    content = section.get("content", "")
+                    if heading:
+                        st.subheader(heading)
+                    if content:
+                        st.markdown(content)
 
-            meta_desc = article.get("meta_description", "")
-            if meta_desc:
-                st.caption(f"**Meta-Beschreibung:** {meta_desc}")
+                meta_desc = article.get("meta_description", "")
+                if meta_desc:
+                    st.caption(f"**Meta-Beschreibung:** {meta_desc}")
+
+        # Social Media Snippets
+        _social = getattr(content_result, "social_snippets", {})
+        if _social:
+            with st.expander("📱 Social Media Snippets", expanded=False):
+                _tab_li, _tab_x, _tab_nl = st.tabs(["LinkedIn", "X / Twitter", "Newsletter-Teaser"])
+                with _tab_li:
+                    st.text_area(
+                        "LinkedIn",
+                        value=_social.get("linkedin", ""),
+                        height=200,
+                        label_visibility="collapsed",
+                    )
+                with _tab_x:
+                    _tw = _social.get("twitter", "")
+                    st.text_area(
+                        "X/Twitter",
+                        value=_tw,
+                        height=100,
+                        label_visibility="collapsed",
+                    )
+                    st.caption(f"{len(_tw)}/280 Zeichen")
+                with _tab_nl:
+                    st.text_area(
+                        "Newsletter-Teaser",
+                        value=_social.get("newsletter_teaser", ""),
+                        height=100,
+                        label_visibility="collapsed",
+                    )
 
         # Agent detail outputs for article pipeline
         if show_details:
