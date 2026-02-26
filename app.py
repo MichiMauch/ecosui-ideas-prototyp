@@ -9,9 +9,25 @@ Zeigt 10 KI-generierte Content-Ideen basierend auf:
 Zusätzlich: Vollständige Artikel per "✍️ Artikel erstellen"-Button generieren.
 """
 
-from datetime import timedelta
+import json
+import os
 
 import streamlit as st
+
+# Streamlit Cloud: st.secrets → os.environ (Pipeline nutzt os.getenv)
+try:
+    for _key, _val in st.secrets.items():
+        if _key not in os.environ:
+            if isinstance(_val, str):
+                os.environ[_key] = _val
+            else:
+                # TOML-Sektion (z.B. [GOOGLE_CREDENTIALS_JSON]) → JSON-String
+                os.environ[_key] = json.dumps(dict(_val))
+except Exception:
+    pass
+
+from datetime import timedelta
+
 import pipeline
 import content_pipeline
 from config import ANALYTICS_DAYS_BACK
