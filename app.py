@@ -12,6 +12,9 @@ Zusätzlich: Vollständige Artikel per "✍️ Artikel erstellen"-Button generie
 import json
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
 import streamlit as st
 
 # Streamlit Cloud: st.secrets → os.environ (Pipeline nutzt os.getenv)
