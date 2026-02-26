@@ -30,7 +30,45 @@ from datetime import timedelta
 
 import pipeline
 import content_pipeline
+import evaluation_pipeline
 from config import ANALYTICS_DAYS_BACK
+
+
+@st.cache_data(ttl=300)
+def _check_connections() -> dict:
+    """Prüft GA4-, GSC- und RSS-Verbindungen. Gecacht für 5 Minuten."""
+    from data.google_analytics import _get_client
+    from data.search_console import _get_service
+    from data.rss_reader import _fetch_feed_raw
+    from config import RSS_FEEDS
+
+    creds_file = os.getenv("GOOGLE_CREDENTIALS_FILE", "credentials.json")
+
+    try:
+        _get_client(creds_file)
+        ga4_ok = True
+    except Exception:
+        ga4_ok = False
+
+    try:
+        _get_service(creds_file)
+        gsc_ok = True
+    except Exception:
+        gsc_ok = False
+
+    _display = {"NZZ Wirtschaft": "NZZ", "SRF Wirtschaft": "SRF",
+                "Tages-Anzeiger Wirtschaft": "Tagi"}
+    rss_status = {}
+    for feed in RSS_FEEDS:
+        label = _display.get(feed["name"], feed["name"])
+        try:
+            _fetch_feed_raw(feed["url"])
+            rss_status[label] = True
+        except Exception:
+            rss_status[label] = False
+
+    return {"ga4": ga4_ok, "gsc": gsc_ok, "rss": rss_status}
+
 
 st.set_page_config(
     page_title="Content-Ideen-Generator",
@@ -50,13 +88,21 @@ st.divider()
 # ── Sidebar: Status & Details ─────────────────────────────────────────────────
 with st.sidebar:
     st.header("ℹ️ Info")
+
+    conn = _check_connections()
+    _ic = lambda ok: "🟢" if ok else "🔴"
+
+    st.markdown("**Verbindungsstatus:**")
+    lines = [
+        f"- {_ic(conn['ga4'])} Google Analytics 4 (letzte 7 Tage)",
+        f"- {_ic(conn['gsc'])} Google Search Console (letzte 7 Tage)",
+    ]
+    for name, ok in conn["rss"].items():
+        lines.append(f"- {_ic(ok)} RSS: {name}")
+    st.markdown("\n".join(lines))
+
     st.markdown(
         """
-**Datenquellen:**
-- Google Analytics 4 (letzte 7 Tage)
-- Google Search Console (letzte 7 Tage)
-- RSS: Handelsblatt, FAZ, NZZ
-
 **4 KI-Agenten (Ideen):**
 1. 🔍 Analyst (GA4 + GSC)
 2. 📰 Trend-Scout (RSS)
@@ -68,7 +114,7 @@ with st.sidebar:
 2. ✍️ Writer
 3. ✅ Fact-Checker
 4. 🎯 Evaluator
-        """
+    """
     )
 
     st.divider()
@@ -82,6 +128,10 @@ if "selected_idea" not in st.session_state:
     st.session_state.selected_idea = None
 if "content_result" not in st.session_state:
     st.session_state.content_result = None
+if "eval_result" not in st.session_state:
+    st.session_state.eval_result = None
+if "eval_idea_title" not in st.session_state:
+    st.session_state.eval_idea_title = ""
 
 # ── Main: Generate Button ──────────────────────────────────────────────────────
 col1, col2 = st.columns([1, 3])
@@ -289,6 +339,85 @@ if result is not None:
     elif not result.errors:
         st.error("Es wurden keine Ideen generiert. Bitte überprüfe die Konfiguration.")
 
+# ── Eigene Idee prüfen ────────────────────────────────────────────────────────
+st.divider()
+st.subheader("💭 Eigene Idee prüfen")
+
+col_input, col_btn = st.columns([4, 1])
+with col_input:
+    user_idea_title = st.text_input(
+        "Ideen-Titel",
+        placeholder="z.B. Warum der Franken 2025 unter Druck gerät",
+        label_visibility="collapsed",
+    )
+user_idea_desc = st.text_area(
+    "Beschreibung (optional)",
+    placeholder="Kurze Erläuterung der Idee ...",
+    height=80,
+    label_visibility="collapsed",
+)
+with col_btn:
+    check_btn = st.button(
+        "🔍 Prüfen",
+        type="primary",
+        use_container_width=True,
+        disabled=not user_idea_title.strip(),
+    )
+
+if check_btn and user_idea_title.strip():
+    st.session_state.eval_result = None
+    pr = st.session_state.pipeline_result
+
+    eval_status = st.empty()
+    eval_result = evaluation_pipeline.run(
+        idea_title=user_idea_title,
+        idea_desc=user_idea_desc,
+        rss_articles=pr.rss_articles if pr else None,
+        ga4_pages=pr.ga4_pages if pr else None,
+        gsc_queries=pr.gsc_queries if pr else None,
+        status_callback=lambda msg: eval_status.info(f"⏳ {msg}"),
+    )
+    eval_status.empty()
+    st.session_state.eval_result = eval_result
+    st.session_state.eval_idea_title = user_idea_title
+
+eval_result = st.session_state.eval_result
+if eval_result:
+    verdict_icon = {
+        "Empfohlen": "🟢",
+        "Mit Vorbehalt": "🟡",
+        "Nicht empfohlen": "🔴",
+    }.get(eval_result.verdict, "⚪")
+
+    if eval_result.errors:
+        with st.expander("⚠️ Warnungen / Fehler (Ideen-Prüfung)", expanded=True):
+            for err in eval_result.errors:
+                st.warning(err)
+
+    if eval_result.verdict:
+        with st.container(border=True):
+            c1, c2 = st.columns([1, 3])
+            c1.metric(
+                "Bewertung",
+                f"{eval_result.score}/100",
+                delta=f"{verdict_icon} {eval_result.verdict}",
+            )
+            c2.markdown(f"**Empfehlung:** {eval_result.recommendation}")
+
+            col_pro, col_con = st.columns(2)
+            with col_pro:
+                st.markdown("**✅ Dafür spricht:**")
+                for p in eval_result.pros:
+                    st.markdown(f"- {p}")
+            with col_con:
+                st.markdown("**⚠️ Dagegen spricht:**")
+                for c in eval_result.cons:
+                    st.markdown(f"- {c}")
+
+        if show_details and eval_result.context_notes:
+            with st.expander("🔍 Kontext-Agent Output", expanded=False):
+                st.markdown(eval_result.context_notes)
+
 # ── Article Creation Section ──────────────────────────────────────────────────
 selected_idea = st.session_state.selected_idea
 
@@ -414,45 +543,4 @@ if selected_idea is not None:
                     st.markdown(evaluation.get("feedback", "_Kein Feedback_"))
 
 else:
-    # Empty state (no pipeline run yet)
-    if result is None:
-        st.info(
-            "Klicke auf **🚀 Ideen generieren**, um den Multi-Agenten-Workflow zu starten.\n\n"
-            "Stelle sicher, dass `.env` und `credentials.json` korrekt konfiguriert sind."
-        )
-
-        with st.expander("📋 Setup-Anleitung", expanded=False):
-            st.markdown(
-                """
-### 1. `.env`-Datei anlegen
-
-Kopiere `.env.example` zu `.env` und fülle die Werte aus:
-
-```
-OPENAI_API_KEY=sk-...
-GA4_PROPERTY_ID=123456789
-GSC_SITE_URL=https://www.example.com/
-GOOGLE_CREDENTIALS_FILE=credentials.json
-```
-
-### 2. Google Service Account einrichten
-
-1. [Google Cloud Console](https://console.cloud.google.com/) öffnen
-2. Neues Projekt erstellen (oder bestehendes wählen)
-3. APIs aktivieren: **Google Analytics Data API** und **Google Search Console API**
-4. Service Account erstellen → JSON-Key herunterladen → als `credentials.json` im Projektordner speichern
-5. Service Account E-Mail in GA4-Property und Search Console als Nutzer (Leserecht) hinzufügen
-
-### 3. Abhängigkeiten installieren
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. App starten
-
-```bash
-streamlit run app.py
-```
-            """
-            )
+    pass

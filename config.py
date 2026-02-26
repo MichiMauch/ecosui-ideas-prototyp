@@ -16,13 +16,17 @@ RSS_FEEDS = [
         "name": "Tages-Anzeiger Wirtschaft",
         "url": "https://partner-feeds.publishing.tamedia.ch/rss/tagesanzeiger/wirtschaft",
     },
+    {
+        "name": "Google News Wirtschaft CH",
+        "url": "https://news.google.com/rss/search?q=wirtschaft+schweiz&hl=de&gl=CH&ceid=CH:de",
+    },
 ]
 
 # How many days back to fetch data from GA4 and GSC
 ANALYTICS_DAYS_BACK = 7
 
 # How many content ideas to generate
-IDEAS_COUNT = 10
+IDEAS_COUNT = 5
 
 # Max RSS items to fetch per feed (before filtering)
 RSS_MAX_ITEMS_PER_FEED = 15

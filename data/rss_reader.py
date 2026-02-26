@@ -60,6 +60,39 @@ def fetch_rss_articles(feeds: list[dict] | None = None, max_per_feed: int = RSS_
     return articles
 
 
+def fetch_google_news_articles(
+    query: str,
+    hl: str = "de",
+    gl: str = "CH",
+    max_items: int = 15,
+) -> list[dict]:
+    """
+    Sucht Google News RSS nach einem spezifischen Begriff.
+    Gibt Liste von Dicts zurück (gleiche Struktur wie fetch_rss_articles):
+        source, title, summary, published, url
+    Gibt [] zurück bei Fehler (kein Crash).
+    """
+    import urllib.parse
+    encoded = urllib.parse.quote(query)
+    url = f"https://news.google.com/rss/search?q={encoded}&hl={hl}&gl={gl}&ceid={gl}:{hl}"
+    try:
+        raw = _fetch_feed_raw(url)
+        feed = feedparser.parse(raw)
+        articles = []
+        for entry in feed.entries[:max_items]:
+            articles.append({
+                "source": "Google News",
+                "title": entry.get("title", "").strip(),
+                "summary": _clean_summary(entry.get("summary", "")),
+                "published": _parse_date(entry),
+                "url": entry.get("link", ""),
+            })
+        return articles
+    except Exception as e:
+        print(f"[rss_reader] Google News Fehler ({query!r}): {e}")
+        return []
+
+
 def _parse_date(entry) -> datetime | None:
     """Try to parse the publication date from an RSS entry."""
     if hasattr(entry, "published_parsed") and entry.published_parsed:
