@@ -34,7 +34,8 @@ from datetime import timedelta
 import pipeline
 import content_pipeline
 import evaluation_pipeline
-from config import ANALYTICS_DAYS_BACK
+import export
+from config import ANALYTICS_DAYS_BACK, ANALYTICS_DAYS_LONG
 
 
 @st.cache_data(ttl=300)
@@ -85,13 +86,13 @@ def _check_connections() -> dict:
 
 
 st.set_page_config(
-    page_title="Content-Ideen-Generator",
+    page_title="Agentic AI Content-Ideen-Generator",
     page_icon="💡",
     layout="wide",
 )
 
 # ── Header ────────────────────────────────────────────────────────────────────
-st.title("💡 Content-Ideen-Generator")
+st.title("💡 Agentic AI Content-Ideen-Generator")
 st.markdown(
     "Generiert 10 datengetriebene Artikel-Ideen basierend auf GA4, "
     "Google Search Console und aktuellen Wirtschafts-News."
@@ -123,18 +124,33 @@ with st.sidebar:
     st.markdown(
         """
 **4 KI-Agenten (Ideen):**
-1. 🔍 Analyst (GA4 + GSC)
+1. 🔍 Analyst (GA4 + GSC, 7 & 90 Tage)
 2. 📰 Trend-Scout (RSS)
-3. 🧠 Stratege
-4. ✏️ Redakteur
+3. 🧠 Stratege (+ Website-Content)
+4. ✏️ Redakteur (+ Score A/B/C)
 
-**4 KI-Agenten (Artikel):**
+**5 KI-Agenten (Artikel):**
 1. 🔬 Researcher
 2. ✍️ Writer
 3. ✅ Fact-Checker
 4. 🎯 Evaluator
+5. 📱 Social-Writer
     """
     )
+
+    # ── Ideen-Verlauf ─────────────────────────────────────────────────────────
+    _history = pipeline.load_ideas_history()
+    if _history:
+        st.divider()
+        st.markdown("**📅 Letzte Ideen-Generierungen:**")
+        for _run in reversed(_history[-5:]):  # show last 5 runs, newest first
+            _ts = _run.get("generated_at", "")[:16].replace("T", " ")
+            _count = len(_run.get("ideas", []))
+            with st.expander(f"{_ts} — {_count} Ideen", expanded=False):
+                for _idea in _run.get("ideas", []):
+                    _sc = _idea.get("score", "")
+                    _sc_badge = {"A": "🟢 A", "B": "🟡 B", "C": "🔴 C"}.get(_sc, "")
+                    st.markdown(f"{_sc_badge} {_idea.get('title', '')}")
 
     st.divider()
 
@@ -202,6 +218,7 @@ if generate:
 
     steps = [
         "Daten werden geladen (GA4, Search Console, RSS)...",
+        "Bestehende Top-Seiten werden analysiert (Website-Crawler)...",
         "Agent 1/4: Analyst wertet GA4 & Search Console aus...",
         "Agent 2/4: Trend-Scout analysiert RSS-Feeds...",
         "Agent 3/4: Stratege kombiniert Erkenntnisse zu Ideen...",
@@ -239,7 +256,7 @@ if result is not None:
     # ── Quelldaten-Sektion ────────────────────────────────────────────────────
     st.subheader("📊 Quelldaten")
 
-    col_ga4, col_gsc, col_rss = st.columns(3)
+    col_ga4, col_gsc, col_rss, col_crawl, col_trends = st.columns(5)
     col_ga4.metric(
         "Google Analytics 4",
         f"{len(result.ga4_pages)} Seiten" if result.ga4_pages else "Keine Daten",
@@ -248,19 +265,35 @@ if result is not None:
     col_gsc.metric(
         "Search Console",
         f"{len(result.gsc_queries)} Suchanfragen" if result.gsc_queries else "Keine Daten",
-        delta="✅ Verbunden" if result.gsc_queries else "⚠️ Keine Verbindung",
+        delta=f"✅ + {len(result.gsc_pages)} Seitenränge" if result.gsc_pages else (
+            "✅ Verbunden" if result.gsc_queries else "⚠️ Keine Verbindung"
+        ),
     )
     col_rss.metric(
         "RSS-Feeds",
         f"{len(result.rss_articles)} Artikel" if result.rss_articles else "Keine Daten",
         delta="✅ Geladen" if result.rss_articles else "⚠️ Keine Daten",
     )
+    _crawled_ok = [p for p in getattr(result, "crawled_pages", []) if not p.get("error")]
+    col_crawl.metric(
+        "Website-Crawler",
+        f"{len(_crawled_ok)} Seiten gecrawlt" if _crawled_ok else "Nicht gecrawlt",
+        delta="✅ Kontext geladen" if _crawled_ok else "⚠️ Kein Kontext",
+    )
+    _trends = getattr(result, "trends_data", [])
+    col_trends.metric(
+        "Google Trends CH",
+        f"{len(_trends)} Keywords" if _trends else "Keine Daten",
+        delta="✅ Geladen" if _trends else "⚠️ Keine Daten",
+    )
 
     if result.fetched_at:
         date_to = result.fetched_at.date()
         date_from = date_to - timedelta(days=ANALYTICS_DAYS_BACK)
+        date_from_long = date_to - timedelta(days=ANALYTICS_DAYS_LONG)
         st.caption(
-            f"Zeitraum: {date_from.strftime('%d.%m.%Y')} – {date_to.strftime('%d.%m.%Y')} "
+            f"Kurzfrist: {date_from.strftime('%d.%m.%Y')} – {date_to.strftime('%d.%m.%Y')} "
+            f"· Langfrist: {date_from_long.strftime('%d.%m.%Y')} – {date_to.strftime('%d.%m.%Y')} "
             f"· Abgerufen um {result.fetched_at.strftime('%H:%M')} Uhr"
         )
 
@@ -298,6 +331,50 @@ if result is not None:
         else:
             st.info("Keine GSC-Daten verfügbar (Zugangsdaten prüfen).")
 
+    _gsc_pages = getattr(result, "gsc_pages", [])
+    if _gsc_pages:
+        with st.expander("⚡ Fast-Ranker (GSC Seitenränge, Position 4–15)"):
+            _fast_rankers = [p for p in _gsc_pages if 4 <= p["position"] <= 15]
+            if _fast_rankers:
+                st.dataframe(
+                    [
+                        {
+                            "URL": p["page"],
+                            "Impressionen": p["impressions"],
+                            "Klicks": p["clicks"],
+                            "CTR": f"{p['ctr']}%",
+                            "Position": p["position"],
+                        }
+                        for p in _fast_rankers
+                    ],
+                    use_container_width=True,
+                )
+            else:
+                st.info("Keine Fast-Ranker gefunden (alle Seiten auf Position 1–3 oder > 15).")
+
+    _trends_data = getattr(result, "trends_data", [])
+    if _trends_data:
+        with st.expander("⚡ Google Trends – Trendende Suchen CH"):
+            st.dataframe(
+                [{"Rang": t["rank"], "Keyword": t["keyword"], "Trend-Index": t["value"]} for t in _trends_data],
+                use_container_width=True,
+            )
+
+    _crawled_pages = getattr(result, "crawled_pages", [])
+    if _crawled_pages:
+        with st.expander("🕸️ Gecrawlte Top-Seiten (Bestehender Content)"):
+            for _cp in _crawled_pages:
+                if _cp.get("error"):
+                    st.caption(f"⚠️ {_cp['url']}: {_cp['error']}")
+                    continue
+                st.markdown(
+                    f"**[{_cp.get('title') or _cp['url']}]({_cp['url']})** "
+                    f"— {_cp.get('word_count', 0)} Wörter"
+                    + (f" · {_cp.get('estimated_date', '')}" if _cp.get('estimated_date') else "")
+                )
+                if _cp.get("summary"):
+                    st.caption(_cp["summary"][:200])
+
     st.divider()
 
     # ── Errors ────────────────────────────────────────────────────────────────
@@ -318,11 +395,15 @@ if result is not None:
             "Steuern & Recht": "🔴",
         }
 
+        _score_colors = {"A": "🟢", "B": "🟡", "C": "🔴"}
+        _score_labels = {"A": "A – Alle Signale", "B": "B – 2 Signale", "C": "C – 1 Signal"}
+
         for i, idea in enumerate(result.ideas, 1):
             title = idea.get("title", "Kein Titel")
             why_now = idea.get("why_now", "")
             category = idea.get("category", "")
             icon = category_colors.get(category, "⚪")
+            score = idea.get("score", "")
 
             signals = idea.get("signals", {})
 
@@ -331,8 +412,13 @@ if result is not None:
                 with col_num:
                     st.markdown(f"### {i}")
                 with col_content:
+                    _meta_cols = st.columns([3, 2, 5])
                     if category:
-                        st.markdown(f"{icon} `{category}`")
+                        _meta_cols[0].markdown(f"{icon} `{category}`")
+                    if score:
+                        _sc_icon = _score_colors.get(score, "")
+                        _sc_label = _score_labels.get(score, score)
+                        _meta_cols[1].markdown(f"{_sc_icon} `{_sc_label}`")
                     st.markdown(f"### {title}")
                     if why_now:
                         st.markdown(f"**Warum jetzt?** {why_now}")
@@ -610,8 +696,38 @@ if selected_idea is not None:
                 if meta_desc:
                     st.caption(f"**Meta-Beschreibung:** {meta_desc}")
 
-        # Social Media Snippets
+        # Export buttons
         _social = getattr(content_result, "social_snippets", {})
+        _md_bytes = export.article_to_markdown(article, _social).encode("utf-8")
+        _pdf_bytes = export.article_to_pdf(article, _social)
+        _slug = export._slugify(article.get("title", "artikel"))
+
+        col_md, col_pdf, col_cms, _ = st.columns([2, 2, 2, 4])
+        with col_md:
+            st.download_button(
+                "📄 Markdown",
+                data=_md_bytes,
+                file_name=f"{_slug}.md",
+                mime="text/markdown",
+                use_container_width=True,
+            )
+        with col_pdf:
+            st.download_button(
+                "🖨️ PDF",
+                data=_pdf_bytes,
+                file_name=f"{_slug}.pdf",
+                mime="application/pdf",
+                use_container_width=True,
+            )
+        with col_cms:
+            st.button(
+                "🌐 CMS importieren",
+                use_container_width=True,
+                disabled=True,
+                help="CMS-Integration – coming soon",
+            )
+
+        # Social Media Snippets
         if _social:
             with st.expander("📱 Social Media Snippets", expanded=False):
                 _tab_li, _tab_x, _tab_nl = st.tabs(["LinkedIn", "X / Twitter", "Newsletter-Teaser"])
