@@ -51,6 +51,11 @@ FORMATIERUNG (Markdown innerhalb der section.content Felder):
 - Jeder Abschnitt soll mindestens 2 Absätze oder eine Liste enthalten
 - Verwende niemals h3/h4-Markdown-Überschriften innerhalb von content (###) — nur Fliesstext, Fett und Listen
 
+INHALTSTRENNUNG (zwingend):
+- GSC-Metriken (Impressionen, Klicks, CTR, Positionen) NIEMALS in article sections schreiben
+- Suchanfragen-Statistiken sind internes Redaktionsmaterial → gehören ausschliesslich in journalist_notes
+- journalist_notes enthält: SEO-Kontext aus Research-Notes, Datenlücken, Quellenhinweise, empfohlene Ergänzungen
+
 Schreibe auf Deutsch. Zielumfang: ca. {target_words} Wörter.
 Gib die Antwort als JSON zurück mit exakt dieser Struktur:
 {{
@@ -61,7 +66,7 @@ Gib die Antwort als JSON zurück mit exakt dieser Struktur:
     ...
   ],
   "meta_description": "SEO-Meta-Beschreibung (max. 160 Zeichen)",
-  "journalist_notes": "Hinweise für den Journalisten: Zusammenfassung der wichtigsten Erkenntnisse, offene Datenlücken, empfohlene Recherche-Schritte und Ergänzungsideen (Factsheets, Downloads etc.)"
+  "journalist_notes": "Interne Hinweise für den Journalisten (NICHT publizieren): SEO-Kontext (GSC-Metriken, Keywords, Positionen), Datenlücken im Artikel, empfohlene Recherche-Schritte, Ergänzungsideen (Factsheets, Downloads, Folge-Artikel)"
 }}"""
 
     idea_title = idea.get("title", "")

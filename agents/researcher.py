@@ -94,9 +94,13 @@ Erstelle strukturierte Research-Notes mit folgenden Abschnitten:
 - Zitat: "..." [Quelle]
 
 ## Leserfragen (aus Search Console)
-(Was wollen Leser wissen? Als Fragen formuliert)
+(Nur als inhaltliche Fragen formuliert — KEINE Metriken im Artikel verwenden)
 - Frage 1?
 - Frage 2?
+
+## SEO-Kontext [NUR FÜR JOURNALIST_NOTES — niemals in Artikelabschnitte]
+(Rohdaten: Suchvolumen, CTR, Positionen — gehören in journalist_notes, nicht in den Artikel)
+- "keyword" — X Impressionen, Y Klicks, CTR Z%, Pos. P
 
 ## Empfohlene Artikel-Struktur
 (Vorschlag: 4-6 Abschnitte mit je 1-Satz-Beschreibung was dort stehen soll)
