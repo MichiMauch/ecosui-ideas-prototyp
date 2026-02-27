@@ -60,7 +60,8 @@ Gib die Antwort als JSON zurück mit exakt dieser Struktur:
     {{"heading": "Abschnitts-Überschrift", "content": "Abschnittstext"}},
     ...
   ],
-  "meta_description": "SEO-Meta-Beschreibung (max. 160 Zeichen)"
+  "meta_description": "SEO-Meta-Beschreibung (max. 160 Zeichen)",
+  "journalist_notes": "Hinweise für den Journalisten: Zusammenfassung der wichtigsten Erkenntnisse, offene Datenlücken, empfohlene Recherche-Schritte und Ergänzungsideen (Factsheets, Downloads etc.)"
 }}"""
 
     idea_title = idea.get("title", "")
@@ -91,7 +92,6 @@ Der Artikel soll:
 - 4-6 thematische Abschnitte haben
 - mindestens 2 Abschnitte mit Aufzählungen oder nummerierten Listen enthalten
 - konkrete Zahlen, Namen und Fakten aus den Research-Notes verwenden (**fettgedruckt** hervorheben)
-- mit einem Abschnitt "Fazit" oder "Was bedeutet das?" enden
 - keine werbliche Sprache enthalten
 - für ein gebildetes Wirtschaftspublikum verständlich sein"""
 
@@ -113,5 +113,6 @@ Der Artikel soll:
     article.setdefault("lead", "")
     article.setdefault("sections", [])
     article.setdefault("meta_description", "")
+    article.setdefault("journalist_notes", "")
 
     return article

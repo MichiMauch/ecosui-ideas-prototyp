@@ -40,6 +40,7 @@ class ContentResult:
     research_notes: str = ""
     revision_count: int = 0
     social_snippets: dict = field(default_factory=dict)
+    journalist_notes: str = ""
     errors: list[str] = field(default_factory=list)
 
 
@@ -147,6 +148,9 @@ def run(
         if not revision_feedback:
             # No actionable feedback — stop looping
             break
+
+    # ── Extract journalist notes from article dict ────────────────────────────
+    result.journalist_notes = result.article.pop("journalist_notes", "")
 
     # ── Social Media Snippets ─────────────────────────────────────────────────
     if result.evaluation.get("passed", False) and result.article:

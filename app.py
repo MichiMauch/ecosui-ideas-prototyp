@@ -29,12 +29,13 @@ try:
 except Exception:
     pass
 
-from datetime import timedelta
+from datetime import date, timedelta
 
 import pipeline
 import content_pipeline
 import evaluation_pipeline
 import export
+import calendar_planner
 from config import ANALYTICS_DAYS_BACK, ANALYTICS_DAYS_LONG
 
 
@@ -385,6 +386,19 @@ if result is not None:
 
     # ── Ideas Grid ────────────────────────────────────────────────────────────
     if result.ideas:
+        # SEO Potential Banner
+        _seo_pot = getattr(result, "seo_potential", {}) or {}
+        if _seo_pot.get("total_potential", 0) > 0:
+            _top_opps = _seo_pot.get("top_opportunities", [])
+            _top_label = _top_opps[0]["label"] if _top_opps else ""
+            _banner_text = (
+                f"**SEO-Potenzial:** Fast-Ranker und CTR-Lucken konnten "
+                f"**+{_seo_pot['total_potential']:,} Besucher/Monat** bringen."
+            )
+            if _top_label:
+                _banner_text += f" Top Quick Win: {_top_label}"
+            st.info(f"📈 {_banner_text}")
+
         st.subheader(f"✨ {len(result.ideas)} Content-Ideen")
 
         category_colors = {
@@ -412,13 +426,20 @@ if result is not None:
                 with col_num:
                     st.markdown(f"### {i}")
                 with col_content:
-                    _meta_cols = st.columns([3, 2, 5])
+                    _meta_cols = st.columns([3, 2, 2, 3])
                     if category:
                         _meta_cols[0].markdown(f"{icon} `{category}`")
                     if score:
                         _sc_icon = _score_colors.get(score, "")
                         _sc_label = _score_labels.get(score, score)
                         _meta_cols[1].markdown(f"{_sc_icon} `{_sc_label}`")
+                    _is_trending = any(
+                        t.get("keyword", "").lower() in title.lower()
+                        or t.get("keyword", "").lower() in str(signals).lower()
+                        for t in (getattr(result, "trends_data", []) or [])
+                    )
+                    if _is_trending:
+                        _meta_cols[2].markdown("🔥 **Trending**")
                     st.markdown(f"### {title}")
                     if why_now:
                         st.markdown(f"**Warum jetzt?** {why_now}")
@@ -485,6 +506,48 @@ if result is not None:
                             label_visibility="collapsed",
                         )
                         st.session_state.bookmarks[title]["note"] = _note
+
+        st.divider()
+
+        # ── Redaktionsplan ─────────────────────────────────────────────────────
+        _calendar = calendar_planner.generate_content_calendar(
+            result.ideas, getattr(result, "trends_data", []) or []
+        )
+        _cal_monday = calendar_planner._next_monday()
+        _week_dates = {
+            w: calendar_planner.week_date_range_label(w, _cal_monday)
+            for w in range(1, 5)
+        }
+        with st.expander("📅 Redaktionsplan (4 Wochen)", expanded=True):
+            _week_cols = st.columns(4)
+            for _week_num in range(1, 5):
+                _week_items = [e for e in _calendar if e["week"] == _week_num]
+                with _week_cols[_week_num - 1]:
+                    st.markdown(f"**Woche {_week_num}**")
+                    st.caption(_week_dates[_week_num])
+                    for _entry in _week_items:
+                        _w_idea = _entry["idea"]
+                        _w_cat = _w_idea.get("category", "")
+                        _w_score = _w_idea.get("score", "")
+                        _w_icon = category_colors.get(_w_cat, "⚪")
+                        _w_sc_icon = _score_colors.get(_w_score, "")
+                        with st.container(border=True):
+                            st.markdown(
+                                f"{_w_icon} {_w_sc_icon} **{_w_idea.get('title', '')[:55]}**"
+                            )
+                            st.caption(
+                                f"📅 {_entry['publish_date'].strftime('%d.%m.')}"
+                                f" · {_entry['urgency_label']}"
+                            )
+
+        # ── Kundenbericht PDF ──────────────────────────────────────────────────
+        _report_bytes = export.create_client_report(result, _calendar)
+        st.download_button(
+            "📊 Kundenbericht PDF",
+            data=_report_bytes,
+            file_name=f"content-report-{date.today()}.pdf",
+            mime="application/pdf",
+        )
 
         st.divider()
 
@@ -679,6 +742,14 @@ if selected_idea is not None:
             with st.container(border=True):
                 st.title(article.get("title", ""))
 
+                _all_text = (
+                    article.get("lead", "") + " "
+                    + " ".join(s.get("content", "") for s in article.get("sections", []))
+                )
+                _word_count = len(_all_text.split())
+                _read_min = max(1, round(_word_count / 200))
+                st.caption(f"📝 {_word_count:,} Worter · ⏱ {_read_min} Min. Lesezeit")
+
                 lead = article.get("lead", "")
                 if lead:
                     st.markdown(f"_{lead}_")
@@ -698,8 +769,9 @@ if selected_idea is not None:
 
         # Export buttons
         _social = getattr(content_result, "social_snippets", {})
-        _md_bytes = export.article_to_markdown(article, _social).encode("utf-8")
-        _pdf_bytes = export.article_to_pdf(article, _social)
+        _jn = getattr(content_result, "journalist_notes", "")
+        _md_bytes = export.article_to_markdown(article, _social, _jn).encode("utf-8")
+        _pdf_bytes = export.article_to_pdf(article, _social, _jn)
         _slug = export._slugify(article.get("title", "artikel"))
 
         col_md, col_pdf, col_cms, _ = st.columns([2, 2, 2, 4])
@@ -726,6 +798,11 @@ if selected_idea is not None:
                 disabled=True,
                 help="CMS-Integration – coming soon",
             )
+
+        # Journalist Notes
+        if _jn:
+            with st.expander("📋 Hinweise für den Journalisten", expanded=True):
+                st.markdown(_jn)
 
         # Social Media Snippets
         if _social:
