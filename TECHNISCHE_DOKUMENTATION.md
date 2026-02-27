@@ -18,6 +18,7 @@
 | Authentifizierung (Google) | Service Account (JSON-Key) |
 | RSS-Parsing | feedparser |
 | Web-Crawling | requests + stdlib `html.parser` |
+| PDF-Export | fpdf2 (Pure-Python, keine Systemabhängigkeiten) |
 | Persistenz | Lokale JSON-Datei (`data/ideas_history.json`) |
 | Umgebungsvariablen | python-dotenv (`.env`-Datei oder Streamlit Secrets) |
 
@@ -37,6 +38,7 @@ content-idea-generator/
 ├── pipeline.py                     # Ideen-Pipeline-Orchestrator (4 Agenten)
 ├── content_pipeline.py             # Artikel-Pipeline-Orchestrator (5 Agenten)
 ├── evaluation_pipeline.py          # Bewertungs-Pipeline-Orchestrator (2 Agenten)
+├── export.py                       # Artikel-Export: Markdown + PDF (fpdf2)
 ├── config.py                       # Zentrale Konfiguration (Konstanten, Feeds)
 │
 ├── agents/
@@ -57,6 +59,7 @@ content-idea-generator/
 │   ├── search_console.py           # GSC API-Client
 │   ├── rss_reader.py               # RSS-Feed-Fetcher
 │   ├── content_crawler.py          # Website-Crawler
+│   ├── google_trends.py            # Google Trends-Client (pytrends)
 │   └── ideas_history.json          # Persistierte Ideen-Runs (auto-created)
 │
 ├── .env                            # Lokale Umgebungsvariablen (nicht committed)
@@ -213,6 +216,63 @@ Wandelt die crawl-Ergebnisse in einen formatierten Markdown-Textblock für Agent
 
 ---
 
+### 3.5 Google Trends (`data/google_trends.py`)
+
+Ruft via `pytrends` trendende Suchanfragen in der Schweiz (`geo="CH"`) ab. Die Konfiguration (`TRENDS_KEYWORDS`, `TRENDS_GEO`, `TRENDS_LIMIT`) liegt in `config.py`.
+
+**Return-Format:** `list[dict]`
+```python
+[
+    {"keyword": str, "value": int},  # value = relativer Trend-Index 0–100
+    ...
+]
+```
+
+Fehler (z.B. Rate-Limit) werden silent ignoriert und geben eine leere Liste zurück.
+
+---
+
+### 3.6 Artikel-Export (`export.py`)
+
+Stellt zwei öffentliche Funktionen für den Download-Export bereit.
+
+**`article_to_markdown(article, social_snippets) → str`**
+
+Erzeugt einen Markdown-String mit folgender Struktur:
+```
+# {title}
+_{lead}_
+---
+## {section.heading}
+{section.content}
+---
+**Meta-Beschreibung:** {meta_description}
+---
+## Social Media
+### LinkedIn / X / Twitter / Newsletter-Teaser
+```
+
+**`article_to_pdf(article, social_snippets) → bytes`**
+
+Rendert denselben Inhalt via `fpdf2` als PDF-Bytes:
+
+| Element | Schrift | Größe |
+|---------|---------|-------|
+| Titel | Helvetica Bold | 20 pt |
+| Lead | Helvetica Italic | 12 pt |
+| Section-Heading | Helvetica Bold | 14 pt |
+| Section-Content | Helvetica Regular | 11 pt |
+| Meta-Beschreibung | Helvetica Italic, grau | 10 pt |
+| Social Snippets | Neue Seite, Helvetica | 11–12 pt |
+
+**`_slugify(text) → str`**
+
+Normalisiert den Artikel-Titel zu einem dateifreundlichen Slug (ASCII, Kleinbuchstaben, Bindestriche). Wird für den Dateinamen der Downloads verwendet.
+
+**Abhängigkeit:** `fpdf2>=2.7.0` (Pure-Python, keine Systemabhängigkeiten wie LaTeX oder Ghostscript).
+
+---
+
 ## 4. Pipeline-Orchestratoren
 
 ### 4.1 Ideen-Pipeline (`pipeline.py`)
@@ -222,13 +282,14 @@ Wandelt die crawl-Ergebnisse in einen formatierten Markdown-Textblock für Agent
 **Ablauf:**
 
 ```
-Step 1: Parallel-Datenabruf (6 Threads, Timeout 45s gesamt)
+Step 1: Parallel-Datenabruf (7 Threads, Timeout 45s gesamt)
         ├── GA4 (7 Tage)
         ├── GA4 (90 Tage)
         ├── GSC Queries (7 Tage)
         ├── GSC Queries (90 Tage)
         ├── GSC Seiten-Positionen (7 Tage)
-        └── RSS-Feeds
+        ├── RSS-Feeds
+        └── Google Trends (Schweiz)
 
 Step 2: Website-Crawler (sequenziell, top 10 GA4-Seiten)
 
@@ -240,7 +301,7 @@ Step 6: Agent 4 – Redakteur
 Step 7: Persistenz (ideas_history.json)
 ```
 
-**Parallelität:** `concurrent.futures.ThreadPoolExecutor(max_workers=6)`. Alle 6 Datenabrufe laufen gleichzeitig. Deadline-basiertes Timeout: 45 Sekunden gesamt. Einzelne Fehler werden als Warnungen in `result.errors` gesammelt, stoppen aber nicht die Pipeline.
+**Parallelität:** `concurrent.futures.ThreadPoolExecutor(max_workers=7)`. Alle 7 Datenabrufe laufen gleichzeitig. Deadline-basiertes Timeout: 45 Sekunden gesamt. Einzelne Fehler werden als Warnungen in `result.errors` gesammelt, stoppen aber nicht die Pipeline.
 
 **Streaming:** Agenten 1–3 unterstützen Token-Streaming über `token_callback(phase, accumulated_text)`. Der UI-Bereich zeigt den laufenden Agent-Output in Echtzeit an (max. 800 Zeichen tail).
 
@@ -578,6 +639,8 @@ class EvaluationResult:
 | `ANALYTICS_DAYS_LONG` | `int` | `90` | Langfristiger Zeitraum (Evergreen-Vergleich) |
 | `CRAWL_TOP_PAGES` | `int` | `10` | Anzahl GA4-Seiten für Website-Crawler |
 | `IDEAS_COUNT` | `int` | `5` | Anzahl zu generierender Ideen |
+| `TRENDS_GEO` | `str` | `"CH"` | Region für Google Trends (ISO-3166-Alpha-2) |
+| `TRENDS_LIMIT` | `int` | `20` | Anzahl trendender Keywords |
 | `RSS_MAX_ITEMS_PER_FEED` | `int` | `15` | Maximale RSS-Artikel pro Feed |
 | `OPENAI_MODEL` | `str` | `"gpt-5.2"` | Modell für Ideen-Pipeline-Agenten |
 | `OPENAI_MODEL_PRO` | `str` | `"gpt-5.2"` | Modell für Artikel-Pipeline-Agenten |
@@ -693,7 +756,7 @@ A-Ideen erscheinen in der UI immer zuerst, C-Ideen zuletzt.
 │                    PIPELINE.RUN()                           │
 │                                                             │
 │  ┌──────────────────────────────────────────────────────┐  │
-│  │  Parallel-Datenabruf (ThreadPoolExecutor, 6 Threads) │  │
+│  │  Parallel-Datenabruf (ThreadPoolExecutor, 7 Threads) │  │
 │  │                                                      │  │
 │  │  google_analytics.py          rss_reader.py          │  │
 │  │  fetch_top_pages(7T)  ──┐  ┌── fetch_rss_articles()  │  │
@@ -701,7 +764,10 @@ A-Ideen erscheinen in der UI immer zuerst, C-Ideen zuletzt.
 │  │                         │  │  search_console.py      │  │
 │  │  fetch_top_queries(7T) ─┤  ├── fetch_top_queries(7T) │  │
 │  │  fetch_top_queries(90T)─┤  ├── fetch_top_queries(90T)│  │
-│  │  fetch_top_pages_by_pos─┘  └── (gsc pages)           │  │
+│  │  fetch_top_pages_by_pos─┤  └── (gsc pages)           │  │
+│  │                         │                            │  │
+│  │  google_trends.py       │                            │  │
+│  │  fetch_trending_topics──┘                            │  │
 │  │                                                      │  │
 │  │  Return: list[dict] je Quelle    Timeout: 45s        │  │
 │  └──────────────────────────────────────────────────────┘  │
@@ -788,6 +854,19 @@ A-Ideen erscheinen in der UI immer zuerst, C-Ideen zuletzt.
 │                            │                                │
 │  Return: ContentResult                                      │
 └─────────────────────────────────────────────────────────────┘
+                            │
+                            │ (Artikel in app.py dargestellt)
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      EXPORT (export.py)                     │
+│                                                             │
+│  article_to_markdown(article, social_snippets) → str        │
+│  article_to_pdf(article, social_snippets) → bytes (fpdf2)   │
+│  _slugify(title) → str  (für Dateinamen)                    │
+│                                                             │
+│  UI: st.download_button "📄 Markdown" + "🖨️ PDF"            │
+│      st.button "🌐 CMS importieren" (disabled)              │
+└─────────────────────────────────────────────────────────────┘
 
                   (parallel, unabhängig von Artikel-Pipeline)
 ┌─────────────────────────────────────────────────────────────┐
@@ -814,4 +893,4 @@ A-Ideen erscheinen in der UI immer zuerst, C-Ideen zuletzt.
 
 ---
 
-*Stand: Februar 2026*
+*Stand: Februar 2026 – zuletzt aktualisiert: Artikel-Export (MD/PDF), Google Trends, 7-Thread-Parallelität*

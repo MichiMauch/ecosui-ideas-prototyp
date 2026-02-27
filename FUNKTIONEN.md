@@ -125,6 +125,17 @@ Erstellt aus dem finalen Artikel automatisch drei fertige Social-Media-Texte:
 - **X / Twitter:** Max. 280 Zeichen, prägnant, maximal 1–2 Hashtags
 - **Newsletter-Teaser:** 2 Sätze, neugierig machend
 
+### Artikel-Export
+Nach der Generierung erscheinen direkt unterhalb des Artikels drei Buttons:
+
+| Button | Format | Verwendungszweck |
+|--------|--------|-----------------|
+| **📄 Markdown** | `.md`-Datei | Weiterverarbeitung, CMS-Import, Versionskontrolle |
+| **🖨️ PDF** | `.pdf`-Datei | Kundenvorlagen, Präsentationen, Ablage |
+| **🌐 CMS importieren** | – | Coming soon |
+
+Beide Exporte enthalten denselben Inhalt: Titel, Lead, alle Abschnitte, Meta-Beschreibung und – falls vorhanden – die Social-Media-Snippets. Der Dateiname wird automatisch aus dem Artikel-Titel generiert (z.B. `schweizer-wirtschaft-2026.md`).
+
 ---
 
 ## 7. Eigene Ideen prüfen
@@ -220,9 +231,10 @@ Das System ist auf spezifische Bedürfnisse anpassbar:
         │  Researcher → Writer → Fact-Checker     │
         │       → Evaluator (max. 2 Runden)       │
         │       → Social-Writer                   │
+        │       → Export (📄 MD / 🖨️ PDF)          │
         └─────────────────────────────────────────┘
 ```
 
 ---
 
-*Stand: Februar 2026*
+*Stand: Februar 2026 – zuletzt aktualisiert: Artikel-Export (MD/PDF)*
