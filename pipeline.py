@@ -32,6 +32,7 @@ from data.search_console import fetch_top_queries, fetch_top_pages_by_position
 from data.content_crawler import crawl_top_pages, format_crawl_summaries
 from data.google_trends import fetch_trending_topics
 from config import ANALYTICS_DAYS_BACK, ANALYTICS_DAYS_LONG, CRAWL_TOP_PAGES, TRENDS_GEO, TRENDS_LIMIT
+import seo_potential as seo_potential_module
 
 load_dotenv()
 
@@ -58,6 +59,8 @@ class PipelineResult:
     crawled_pages: list[dict] = field(default_factory=list)
     # New: Google Trends data
     trends_data: list[dict] = field(default_factory=list)
+    # New: SEO traffic potential
+    seo_potential: dict = field(default_factory=dict)
     fetched_at: datetime | None = None
 
 
@@ -227,6 +230,14 @@ def run(status_callback=None, token_callback=None) -> PipelineResult:
     result.gsc_queries_long = gsc_queries_long
     result.trends_data = trends_data
     result.fetched_at = datetime.now()
+
+    # --- Calculate SEO traffic potential ---
+    try:
+        result.seo_potential = seo_potential_module.calculate_seo_potential(
+            gsc_pages, gsc_queries
+        )
+    except Exception as e:
+        result.errors.append(f"SEO-Potenzial-Fehler: {e}")
 
     # --- Step 2: Crawl top pages for existing-content context ---
     status("Bestehende Top-Seiten werden analysiert (Website-Crawler)...")
