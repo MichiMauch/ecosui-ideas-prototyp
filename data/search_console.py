@@ -95,3 +95,58 @@ def fetch_top_queries(
         )
 
     return results
+
+
+def fetch_top_pages_by_position(
+    site_url: str,
+    credentials_file: str,
+    days_back: int = 7,
+    limit: int = 25,
+    min_position: float = 1.0,
+    max_position: float = 20.0,
+) -> list[dict]:
+    """
+    Fetch top pages by average position for the last `days_back` days.
+
+    Pages on positions 4–15 ("Fast-Ranker") are prime candidates for
+    content updates that could push them to the top 3.
+
+    Returns a list of dicts with keys:
+        page, impressions, clicks, ctr, position
+    """
+    service = _get_service(credentials_file)
+
+    end_date = date.today().isoformat()
+    start_date = (date.today() - timedelta(days=days_back)).isoformat()
+
+    body = {
+        "startDate": start_date,
+        "endDate": end_date,
+        "dimensions": ["page"],
+        "rowLimit": limit,
+        "orderBy": [{"fieldName": "impressions", "sortOrder": "DESCENDING"}],
+    }
+
+    response = (
+        service.searchanalytics()
+        .query(siteUrl=site_url, body=body)
+        .execute()
+    )
+
+    results = []
+    for row in response.get("rows", []):
+        position = round(row["position"], 1)
+        if min_position <= position <= max_position:
+            results.append(
+                {
+                    "page": row["keys"][0],
+                    "impressions": row["impressions"],
+                    "clicks": row["clicks"],
+                    "ctr": round(row["ctr"] * 100, 2),
+                    "position": position,
+                }
+            )
+
+    # Sort by position ascending so fast-rankers come first
+    results.sort(key=lambda r: r["position"])
+    return results

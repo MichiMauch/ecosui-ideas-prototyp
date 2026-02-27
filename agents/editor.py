@@ -119,5 +119,28 @@ Beispiel:
             item["signals"].setdefault("gsc", "")
             item["signals"].setdefault("rss", "")
         item.setdefault("rss_links", [])
+        # Compute A/B/C data-confidence score based on signal count
+        item["score"] = _compute_score(item["signals"])
         result.append(item)
+
+    # Sort by score: A first, then B, then C
+    score_order = {"A": 0, "B": 1, "C": 2}
+    result.sort(key=lambda x: score_order.get(x.get("score", "C"), 2))
+
     return result
+
+
+def _compute_score(signals: dict) -> str:
+    """
+    Compute data-confidence score A/B/C based on number of populated signals.
+
+    A = all 3 signals (ga4, gsc, rss) present
+    B = 2 signals present
+    C = 0 or 1 signal present
+    """
+    count = sum(1 for v in (signals.get("ga4"), signals.get("gsc"), signals.get("rss")) if v)
+    if count >= 3:
+        return "A"
+    if count == 2:
+        return "B"
+    return "C"

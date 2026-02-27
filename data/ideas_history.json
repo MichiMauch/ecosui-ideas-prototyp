@@ -1,0 +1,411 @@
+[
+  {
+    "generated_at": "2026-02-26T21:44:34.636338",
+    "ideas": [
+      {
+        "title": "US-Drohung gegen MBaer: Was ein Dollar-Bann für Schweizer Firmen bedeutet",
+        "why_now": "Das US-Finanzministerium erhöht den Druck auf die Schweizer Bank MBaer – inklusive der Drohung, sie vom US-Finanzsystem auszuschliessen. Für Schweizer Unternehmen ist das mehr als ein Bankenskandal: USD-Zahlungen, Korrespondenzbanken und Trade-Finance-Linien können plötzlich zum operativen Risiko werden. Gleichzeitig zeigt das Thema „USA/Handel/Sanktionen“ in unseren Daten konstant hohe Aufmerksamkeit, aber es fehlt ein serviceorientierter Erklärartikel jenseits der Zoll-Debatte.",
+        "category": "Steuern & Recht",
+        "signals": {
+          "ga4": "USA-bezogene Inhalte (u.a. Trump-Ticker) liefern stabil hohe Views, das Engagement schwankt je nach Erkläranteil. → Ein praxisnaher Sanktions-/USD-Clearing-Erklärartikel erhöht Nutzwert und Verweildauer, weil er konkrete Unternehmensfragen beantwortet.",
+          "gsc": "Handelspolitik/USA-Themen ziehen Reichweite, aber es fehlt ein klarer, serviceorientierter Erklärartikel jenseits von Zöllen. → Die Idee schliesst diese Intent-Lücke mit Fokus auf Zahlungsverkehr/Compliance statt nur Politik-News.",
+          "rss": "NZZ und Tages-Anzeiger berichten über die US-Drohung gegen MBaer (Ausschluss vom US-Finanzsystem). → Akuter News-Anlass ermöglicht eine schnelle Einordnung als „Stresstest“ für Firmenprozesse und den Finanzplatz."
+        },
+        "rss_links": [
+          {
+            "title": "USA wollen Schweizer Bank kaltstellen. Sie werfen Mbaer Geschäfte mit Iran und Russland vor",
+            "url": "https://www.nzz.ch/wirtschaft/us-finanzministerium-wirft-schweizer-bank-geschaefte-mit-iran-und-russland-vor-ld.1926821",
+            "source": "NZZ Wirtschaft"
+          },
+          {
+            "title": "Verbindungen zu Iran und Russland: US-Finanz­ministerium droht Schweizer Bank mit Ausschluss",
+            "url": "https://www.tagesanzeiger.ch/mbaer-us-finanzministerium-droht-schweizer-bank-mit-ausschluss-352903486089",
+            "source": "Tages-Anzeiger Wirtschaft"
+          }
+        ],
+        "score": "A"
+      },
+      {
+        "title": "US-Zölle und Schweiz 2026: Was gilt aktuell – und wer trifft es?",
+        "why_now": "Unser bestehender Artikel zu US-Zöllen rankt bereits auf Seite 1, aber mit niedriger CTR – ein klassischer Fall für einen Refresh mit FAQ-Snippets und einem klaren „Was gilt aktuell?“-Hub. Gleichzeitig zeigt die Search Console eine deutliche Intent-Bündelung rund um „zölle schweiz usa“, die nach einer zentralen, laufend aktualisierten Seite verlangt. Politische und juristische Updates (Verhandlungen, Gerichte, Ausnahmen) ändern die Lage häufig – ein Dossier mit Timeline reduziert Update-Aufwand und erhöht Wiederkehrer.",
+        "category": "Konjunktur",
+        "signals": {
+          "ga4": "Der Trump-Ticker funktioniert als Evergreen-News-Hub mit konstant starken Zugriffen. → Ein Zölle-Hub mit Timeline/FAQ bedient dieselbe Nutzungslogik (wiederkehrende Updates) und kann als Schwester-Dossier dauerhaft Traffic binden.",
+          "gsc": "Fast-Ranker */de/artikel/us-zoelle-und-die-schweizer-w…* (Pos. 5.7; 4’283 Impr.; CTR 2.01%) und Query-Lücke „zölle schweiz usa“ (Pos. 5.1; CTR 2.18%). → Hohe Impressionen bei schwacher CTR sprechen für Snippet-Optimierung, FAQ-Struktur und eine zentrale „aktuell“-Seite.",
+          "rss": "NZZ thematisiert Rückerstattung/Anfechtung von Zöllen, zudem RSS: „Trotz US-Zollentscheid: Schweiz will weiter verhandeln“. → Diese Updates liefern Stoff für Timeline, Branchenfolgen und eine Exporteur-Checkliste."
+        },
+        "rss_links": [
+          {
+            "title": "Stöckli, Swatch, Victorinox: Firmen müssen hart kämpfen, damit Trump Milliarden an Zöllen zurückzahlt",
+            "url": "https://www.nzz.ch/wirtschaft/erstattung-von-zoellen-in-den-usa-gegen-trump-droht-unternehmen-ein-langer-kampf-ld.1926393",
+            "source": "NZZ Wirtschaft"
+          },
+          {
+            "title": "Trotz US-Zollentscheid: Schweiz will weiter verhandeln - Der Schweizer Bauer",
+            "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOYnUtWDRJcTVHblhvYmpTVmtSbnZIdHVxZlhwTVA3d1h6a3VXN24wLXpSWWNNQld0bk9BeXBueVpNY05aYlkyVmxqTWJMWGlkc093ZjNaZ0xxUUZGOUtwa2cwVVNQdVREUzdqdk5ZMXAxbXRjY1JwaXFVQUx6SjJXdk84RlNqVi1OamFXMG1kNDVZUXNRVzhuS21zNEhWWm93UXpBSzNmR0R0bjZpMTJ2QjdGSTFWN0RJUktjYUx3YXM?oc=5",
+            "source": "Google News Wirtschaft CH"
+          }
+        ],
+        "score": "A"
+      },
+      {
+        "title": "Trump-Ticker als Schweiz-Radar: Zölle, Sanktionen, Exportkontrollen verständlich erklärt",
+        "why_now": "Der Trump-Ticker hat sehr viele Impressionen, aber eine schwache CTR – das deutet auf ein Snippet-/Angle-Problem und fehlende „Antwort-Module“ hin. Gleichzeitig häufen sich USA-getriebene Wirtschaftsnews (Zölle, Sanktionen, Bankenfall), die Leser nicht nur verfolgen, sondern einordnen wollen. Ein Umbau zum „Handels- & Sanktionspolitik USA“-Radar macht den Ticker zur ersten Anlaufstelle für Schweizer Unternehmen.",
+        "category": "Konjunktur",
+        "signals": {
+          "ga4": "Der Trump-Ticker ist ein Evergreen mit stabilen Views; Engagement schwankt je nach Formatqualität. → Erklärboxen (IEEPA/WTO/Sanktionen/Exportkontrollen) plus Schweiz-Modul erhöhen Nutzwert und sollten Verweildauer sowie Wiederkehrer steigern.",
+          "gsc": "GSC Fast-Ranker Trump-Ticker (Pos. 7.5; 5’765 Impr.; CTR 1.53%). → Hohe Nachfrage bei niedriger CTR spricht für Title/Meta-Refresh und strukturierte Snippets (FAQ/Jumpmarks), damit der Ticker Suchintentionen direkt beantwortet.",
+          "rss": "RSS-Cluster zu USA-Themen (MBaer-Sanktionsdruck, Zoll-Updates, Nvidia/Tech als indirekter Treiber). → Die Nachrichtenlage liefert laufend Material; Erklärmodule verhindern, dass der Ticker nur eine Linkliste bleibt."
+        },
+        "rss_links": [
+          {
+            "title": "USA wollen Schweizer Bank kaltstellen. Sie werfen Mbaer Geschäfte mit Iran und Russland vor",
+            "url": "https://www.nzz.ch/wirtschaft/us-finanzministerium-wirft-schweizer-bank-geschaefte-mit-iran-und-russland-vor-ld.1926821",
+            "source": "NZZ Wirtschaft"
+          },
+          {
+            "title": "Stöckli, Swatch, Victorinox: Firmen müssen hart kämpfen, damit Trump Milliarden an Zöllen zurückzahlt",
+            "url": "https://www.nzz.ch/wirtschaft/erstattung-von-zoellen-in-den-usa-gegen-trump-droht-unternehmen-ein-langer-kampf-ld.1926393",
+            "source": "NZZ Wirtschaft"
+          },
+          {
+            "title": "AUDIO-BRIEFING «WIRTSCHAFT» - Nvidia unter Druck, Merz in Peking und KI-Offensive der Adecco Gruppe",
+            "url": "https://www.nzz.ch/wirtschaft/nvidia-unter-druck-merz-in-peking-und-ki-offensive-der-adecco-gruppe-ld.1926499",
+            "source": "NZZ Wirtschaft"
+          }
+        ],
+        "score": "A"
+      },
+      {
+        "title": "Stromabkommen und AKW-Ausfälle: Welche Branchen in der Schweiz am meisten riskieren",
+        "why_now": "Die Debatte um das Stromabkommen (Bilaterale III) trifft auf einen Realitätscheck bei der Kraftwerksverfügbarkeit – das verschiebt die Standortfrage von „langfristig“ zu „akut“. Unternehmen müssen Investitionen, Produktionspläne und Energieabsicherung in einem Umfeld höherer Preis- und Versorgungsunsicherheit neu bewerten. Unsere Daten zeigen, dass politische Dossiers mit klarer wirtschaftlicher Übersetzung (Standortfolgen) besonders gut funktionieren.",
+        "category": "Konjunktur",
+        "signals": {
+          "ga4": "Politische Dossiers erzielen in der Regel gutes Engagement, wenn sie konkrete Auswirkungen auf Unternehmen/Standort übersetzen. → Eine Branchenanalyse (Chemie/Pharma, Metall, Maschinen, Rechenzentren) liefert genau diesen Nutzwert und erhöht die Relevanz über den News-Zyklus hinaus.",
+          "gsc": "Kein spezifischer GSC-Hinweis genannt; Thema passt in das Muster issue-getriebener Inhalte mit gutem Engagement. → Potenzial liegt weniger in einzelnen Keywords als in Dossier-Logik und wiederkehrenden Updates zur Energiepolitik.",
+          "rss": "Tages-Anzeiger: Stromabkommen/Bilaterale III; SRF: defektes AKW Gösgen bremst Alpiq. → Kombination aus Politik- und Angebots-Schock macht eine Standort- und Branchen-Einordnung jetzt besonders naheliegend."
+        },
+        "rss_links": [
+          {
+            "title": "Bilaterale III vor Unterzeichnung: Wenn wir unseren Strom sichern wollen, gibt es nur einen Weg",
+            "url": "https://www.tagesanzeiger.ch/stromabkommen-swissgrid-warnt-vor-isolation-der-schweiz-256365770394",
+            "source": "Tages-Anzeiger Wirtschaft"
+          },
+          {
+            "title": "Jahreszahlen Energiekonzern – Defektes AKW Gösgen bremst Alpiq aus",
+            "url": "https://www.srf.ch/news/wirtschaft/jahreszahlen-energiekonzern-defektes-akw-goesgen-bremst-alpiq-aus",
+            "source": "SRF Wirtschaft"
+          }
+        ],
+        "score": "A"
+      },
+      {
+        "title": "KI-Investitionen in der Schweiz sichern: Diese Reformen entscheiden über den Standort",
+        "why_now": "Der KI-Boom bleibt kapitalmarktgetrieben präsent (Nvidia als Taktgeber), während Schweizer Arbeitgeber parallel über Skills-Engpässe und Standortkosten diskutieren. Genau diese Gleichzeitigkeit erhöht den Handlungsdruck: Wer jetzt nicht in Talent, Infrastruktur (Cloud/Strom) und rechtliche Klarheit investiert, verliert Projekte an andere Standorte. Unsere Nutzer reagieren laut Analytics besonders gut auf orientierende Erklärstücke und Dossiers – ideal für eine „Was jetzt zählt“-Agenda.",
+        "category": "Investitionen",
+        "signals": {
+          "ga4": "Erklärende, orientierende Inhalte (Mission/Brand-Landings, Dossiers) erzielen gutes Nutzerfeedback; KI als Standortthema ist anschlussfähig ohne bestehende Top-Seiten zu duplizieren. → Ein Reform-/Checklisten-Artikel liefert unmittelbaren Nutzwert für Entscheider und kann als Evergreen weiterlaufen.",
+          "gsc": "Kein konkreter GSC-Wert genannt; KI- und USA-getriebene Themen zeigen generell Nachfrage, wenn sie serviceorientiert aufbereitet sind. → Die Idee setzt auf Intent „Einordnung + Handlungsempfehlung“ statt reine News, was typischerweise CTR und Verweildauer hebt.",
+          "rss": "SRF meldet Rekordergebnis bei Nvidia; NZZ-Audio-Briefing verknüpft Nvidia mit „KI-Offensive der Adecco Gruppe“. → Das News-Cluster liefert einen klaren Aufhänger, um Arbeitsmarkt, Regulierung, Strom und Kosten als Standorthebel zu bündeln."
+        },
+        "rss_links": [
+          {
+            "title": "Rekordergebnis bei Nvidia – Weltweit grösste KI-Firma Nvidia ist kaum zu bremsen",
+            "url": "https://www.srf.ch/news/wirtschaft/rekordergebnis-bei-nvidia-weltweit-groesste-ki-firma-nvidia-ist-kaum-zu-bremsen",
+            "source": "SRF Wirtschaft"
+          },
+          {
+            "title": "AUDIO-BRIEFING «WIRTSCHAFT» - Nvidia unter Druck, Merz in Peking und KI-Offensive der Adecco Gruppe",
+            "url": "https://www.nzz.ch/wirtschaft/nvidia-unter-druck-merz-in-peking-und-ki-offensive-der-adecco-gruppe-ld.1926499",
+            "source": "NZZ Wirtschaft"
+          }
+        ],
+        "score": "A"
+      }
+    ]
+  },
+  {
+    "generated_at": "2026-02-26T21:47:13.580620",
+    "ideas": [
+      {
+        "title": "Stromabkommen in Bilateralen III: Was sich für Schweiz konkret ändert",
+        "why_now": "Vor der Unterzeichnung der Bilateralen III rückt das Stromabkommen als zentraler Streitpunkt in den Fokus. Gleichzeitig zeigt die Suche dauerhaft hohes Interesse an „Bilaterale 3“, während Leser nach konkreten Folgen für Versorgungssicherheit und Preise suchen. Ein Mechanik-Explainer klärt, was sich mit Marktkopplung, Netzstabilität und Reserven tatsächlich ändert.",
+        "category": "Energie & Infrastruktur",
+        "signals": {
+          "ga4": "„Faktencheck Bilaterale III“ performt solide. → Begründung: Ein Folgeartikel mit konkreten Strom-Mechanismen bedient dieselbe Einordnungs-Intention, aber mit höherem Nutzwert (Konsequenzen/Was ändert sich).",
+          "gsc": "„bilaterale 3“ ist dauerhaft stark (hohe Impressionen, sehr gute Position). → Begründung: Das Keyword ist ein stabiler Suchanker; ein Stromabkommen-Explainer kann darauf aufsetzen und zusätzliche Longtail-Queries abholen.",
+          "rss": "Tages-Anzeiger: „Bilaterale III vor Unterzeichnung: Wenn wir unseren Strom sichern wollen, gibt es nur einen Weg“. → Begründung: Hohe Aktualität und politischer Trigger – ideal, um mit einem sachlichen Mechanik-Artikel die Debatte zu erklären."
+        },
+        "rss_links": [
+          {
+            "title": "Bilaterale III vor Unterzeichnung: Wenn wir unseren Strom sichern wollen, gibt es nur einen Weg",
+            "url": "https://www.tagesanzeiger.ch/stromabkommen-swissgrid-warnt-vor-isolation-der-schweiz-256365770394",
+            "source": "Tages-Anzeiger Wirtschaft"
+          }
+        ],
+        "score": "A"
+      },
+      {
+        "title": "US-Druck auf Schweizer Banken: Was MBaer für Compliance und Finma heisst",
+        "why_now": "Der Fall MBaer macht greifbar, wie schnell der Zugang zum US-Finanzsystem zur Existenzfrage werden kann. Parallel ist das Thema in Leitmedien (US-Finanzministerium/Finma) hochaktuell, und unsere Daten zeigen, dass erklärende Policy-Formate besonders gut funktionieren. Ein strukturierter Explainer beantwortet die Kernfragen zu Dollar-Clearing, Korrespondenzbanken und Sanktions-Compliance.",
+        "category": "Finanzplatz & Regulierung",
+        "signals": {
+          "ga4": "GA4-Muster: hoher Navigations- und Reputations-Intent rund um Organisationen/Personen; erklärende Policy-Formate (Publikationen/Downloads) sehr stark. → Begründung: Ein klar gegliederter Explainer zu Mechanismus und Pflichten trifft das Nutzungsverhalten (Verstehen statt nur News).",
+          "gsc": "GA4/GSC-Muster zeigt, dass erklärende Formate bei Policy-Themen funktionieren. → Begründung: Der Fall erzeugt Suchbedarf nach „Was bedeutet Ausschluss/Dollar-Clearing/Finma?“ – ein Explainer kann diese Intent-Lücke systematisch bedienen.",
+          "rss": "NZZ und Tages-Anzeiger berichten über drohenden Ausschluss und Finma-Prüfbeauftragten. → Begründung: Der News-Peak liefert den Anlass; wir liefern die dauerhafte Einordnung (Mechanik, Folgen, Lehren)."
+        },
+        "rss_links": [
+          {
+            "title": "USA wollen Schweizer Bank kaltstellen. Sie werfen Mbaer Geschäfte mit Iran und Russland vor",
+            "url": "https://www.nzz.ch/wirtschaft/us-finanzministerium-wirft-schweizer-bank-geschaefte-mit-iran-und-russland-vor-ld.1926821",
+            "source": "NZZ Wirtschaft"
+          },
+          {
+            "title": "Verbindungen zu Iran und Russland: US-Finanz­ministerium droht Schweizer Bank mit Ausschluss",
+            "url": "https://www.tagesanzeiger.ch/mbaer-us-finanzministerium-droht-schweizer-bank-mit-ausschluss-352903486089",
+            "source": "Tages-Anzeiger Wirtschaft"
+          }
+        ],
+        "score": "A"
+      },
+      {
+        "title": "USA-Zölle unter Trump: Was aktuell gilt – Schweiz-FAQ mit Stand-Datum",
+        "why_now": "Das Thema ist in unseren Top-Seiten der Woche und gleichzeitig in der Google-Suche sichtbar, aber mit zu niedriger CTR – ein klassischer Fall für ein Hub-Update. Nutzer suchen konkret nach „Zölle Schweiz USA“ und nach juristischen Stichworten wie „Supreme Court“ und „IEEPA“, erwarten aber eine klare „Was gilt jetzt?“-Antwort. Ein Single-Source-of-Truth-Update mit Stand-Datum, FAQ und interner Verlinkung erhöht Snippet-Qualität und Klickrate.",
+        "category": "Aussenhandel",
+        "signals": {
+          "ga4": "„Trump Ticker“ und „Supreme Court stoppt IEEPA-Zölle“ sind unter den Top-Seiten der Woche. → Begründung: Hohe Nachfrage nach Updates/Einordnung – ein konsolidierter Hub reduziert Fragmentierung und hält Leser länger im Thema.",
+          "gsc": "US-Zölle-Artikel: 4283 Impr., CTR 2.01%, Pos. 5.7; Trump Ticker: 5765 Impr., CTR 1.53%, Pos. 7.5; Queries „zölle schweiz usa“, „supreme court zölle“ mit hohen Impressions und niedriger CTR. → Begründung: Sichtbarkeit ist da, aber Snippet/Angle liefern nicht genug – ein FAQ-Update mit Stand-Datum ist ein direkter CTR-Hebel.",
+          "rss": "NZZ: „Stöckli, Swatch, Victorinox: Firmen müssen hart kämpfen, damit Trump Milliarden an Zöllen zurückzahlt“; zudem Google-News: „Trotz US-Zollentscheid: Schweiz will weiter verhandeln“. → Begründung: Laufende Entwicklung und Schweiz-Bezug rechtfertigen einen fortlaufend gepflegten Status-Hub statt einzelner News-Splitter."
+        },
+        "rss_links": [
+          {
+            "title": "Stöckli, Swatch, Victorinox: Firmen müssen hart kämpfen, damit Trump Milliarden an Zöllen zurückzahlt",
+            "url": "https://www.nzz.ch/wirtschaft/erstattung-von-zoellen-in-den-usa-gegen-trump-droht-unternehmen-ein-langer-kampf-ld.1926393",
+            "source": "NZZ Wirtschaft"
+          },
+          {
+            "title": "Trotz US-Zollentscheid: Schweiz will weiter verhandeln - Der Schweizer Bauer",
+            "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOYnUtWDRJcTVHblhvYmpTVmtSbnZIdHVxZlhwTVA3d1h6a3VXN24wLXpSWWNNQld0bk9BeXBueVpNY05aYlkyVmxqTWJMWGlkc093ZjNaZ0xxUUZGOUtwa2cwVVNQdVREUzdqdk5ZMXAxbXRjY1JwaXFVQUx6SjJXdk84RlNqVi1OamFXMG1kNDVZUXNRVzhuS21zNEhWWm93UXpBSzNmR0R0bjZpMTJ2QjdGSTFWN0RJUktjYUx3YXM?oc=5",
+            "source": "Google News Wirtschaft CH"
+          }
+        ],
+        "score": "A"
+      },
+      {
+        "title": "WEF nach der Krise: Governance-Checkliste für Sponsoren, Partner und Davos",
+        "why_now": "Die WEF-Krise ist durch Rücktritt und neue Enthüllungen wieder auf der Agenda – und damit steigen Reputations- und Compliance-Fragen bei Sponsoren und Partnern. Gleichzeitig zeigen unsere Daten, dass Governance-Inhalte (inkl. Downloads/Best-Practice) überdurchschnittlich stark genutzt werden. Eine praxisnahe Checkliste übersetzt die News-Lage in Entscheidungen: Due Diligence, Exit-Klauseln, Krisenkommunikation und Kontrollmechanismen.",
+        "category": "Unternehmensführung",
+        "signals": {
+          "ga4": "Publikationen/Downloads inkl. Governance performen überragend. → Begründung: Eine Checkliste (download-/bookmark-tauglich) passt exakt zum Nutzungsmodus „anwenden“ statt „nur lesen“. ",
+          "gsc": "„Swiss Code of Best Practices“ ist in der Suche stark. → Begründung: Aktive Governance-Suche signalisiert Nachfrage nach konkreten Leitplanken; WEF-Krise liefert den Anlass für eine anwendungsorientierte Einordnung.",
+          "rss": "NZZ, SRF und Tages-Anzeiger berichten über Brendes Rücktritt nach Epstein-Enthüllungen. → Begründung: Hohe mediale Präsenz schafft Aufmerksamkeit; wir liefern den Mehrwert über Governance-Fragen und Entscheidungslogik für Unternehmen."
+        },
+        "rss_links": [
+          {
+            "title": "WEF-Chef Börge Brende: Der tiefe Fall vom Gipfel der Macht – wegen Epstein",
+            "url": "https://www.nzz.ch/wirtschaft/nach-epstein-enthuellungen-boerge-brende-tritt-als-wef-chef-zurueck-ld.1926767",
+            "source": "NZZ Wirtschaft"
+          },
+          {
+            "title": "Nach Epstein-Enthüllungen – WEF-Chef Børge Brende tritt zurück",
+            "url": "https://www.srf.ch/news/schweiz/nach-epstein-enthuellungen-wef-chef-borge-brende-tritt-zurueck-1",
+            "source": "SRF Wirtschaft"
+          },
+          {
+            "title": "Das WEF in der Krise: Der Rücktritt des WEF-Bosses war unvermeidlich",
+            "url": "https://www.tagesanzeiger.ch/wef-boerge-brende-tritt-wegen-epstein-kontakten-zurueck-494097253253",
+            "source": "Tages-Anzeiger Wirtschaft"
+          }
+        ],
+        "score": "A"
+      },
+      {
+        "title": "Bargeld-Initiative: Gegenentwurf, Folgen und die wichtigsten Fragen im Faktencheck",
+        "why_now": "Die Bargeld-Initiative hat hohe Sichtbarkeit in der Suche, aber unsere CTR ist auffällig niedrig – das spricht für ein Snippet- und Strukturproblem, nicht für mangelndes Interesse. Politische Weichenstellungen (Initiative vs. Gegenentwurf) erzeugen jetzt konkrete Nutzerfragen zu Handel, Banken und Krisenresilienz. Ein Umbau in 5–7 klare Fragen plus „Auf einen Blick“ erhöht Verständlichkeit und Klickrate.",
+        "category": "Steuern & Recht",
+        "signals": {
+          "ga4": "Performance-Muster: Policy-Themen erzielen Sichtbarkeit, aber kämpfen oft mit CTR/Format. → Begründung: Ein FAQ/Faktencheck-Format erhöht Nutzwert und Leseführung und sollte Engagement und Scrolltiefe verbessern.",
+          "gsc": "Bargeld-Initiative-URL: 3288 Impr., CTR 0.91%, Pos. 5.8. → Begründung: Gute Position bei sehr schwacher CTR deutet auf optimierbare Snippets/Struktur hin; ein Fragen-Setup kann die Suchintention präziser treffen.",
+          "rss": ""
+        },
+        "rss_links": [],
+        "score": "B"
+      }
+    ]
+  },
+  {
+    "generated_at": "2026-02-27T07:59:53.529471",
+    "ideas": [
+      {
+        "title": "Stromabkommen und Bilaterale III: Was sich für Industrieinvestitionen konkret ändert",
+        "why_now": "Die Bilateralen III stehen vor der Unterzeichnung – und das Stromabkommen wird als Schlüssel für Versorgungssicherheit und Standortattraktivität verhandelt. Gleichzeitig zeigen Suchdaten, dass das Thema stark nachgefragt wird, besonders in erklärenden Formaten. Ein ökonomischer Wirkungsartikel (Preismechanik, Netzstabilität, Planungssicherheit) liefert den Mehrwert jenseits der politischen Prozesschronik.",
+        "category": "Energie & Industrie",
+        "signals": {
+          "ga4": "Dossier-/Policy-Inhalte funktionieren besonders gut, wenn sie konkret und entscheidungsorientiert sind. → Ein Wirkungsanalyse-Artikel (Mechanismen + Branchenfolgen) trifft diese Erfolgslogik besser als reine Politikberichterstattung.",
+          "gsc": "Fast-Ranker /fr/dossierpolitique/Bilatérales-III (Position 4.0) zeigt bestehende Suchnachfrage; zudem generell hoher Explainer-Intent bei „Bilaterale 3“. → Ein deutschsprachiger Wirtschafts-Explainer kann Nachfrage abholen und die Perspektive auf Industrie/Investitionen schärfen.",
+          "rss": "Tages-Anzeiger berichtet „Bilaterale III vor Unterzeichnung“ mit Fokus Strom sichern/Isolation (Swissgrid-Warnung). → Hohe Aktualität plus klare wirtschaftliche Konsequenzen machen eine Wirkungsanalyse jetzt besonders anschlussfähig."
+        },
+        "rss_links": [
+          {
+            "title": "Bilaterale III vor Unterzeichnung: Wenn wir unseren Strom sichern wollen, gibt es nur einen Weg",
+            "url": "https://www.tagesanzeiger.ch/stromabkommen-swissgrid-warnt-vor-isolation-der-schweiz-256365770394",
+            "source": "Tages-Anzeiger Wirtschaft"
+          },
+          {
+            "title": "Bilaterale III vor Unterzeichnung: Wenn wir unseren Strom sichern wollen, gibt es nur einen Weg - Der Bund",
+            "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQdW95bFFaZklwMTlaQkhqTG16QTJ6ZjNQd2haSUk1aEhiN2RqalkwMHk1elFjbHlmeWE3bHdMaG5QYjNGS2NkWmp2Wjlpd01MSDlteWRBTGpGcjZCdnRpVEdkc05JWFlid0t1VVZERUZ6M0FqTnNFSWxWcVNOTDdFMlRCVDNhZ1R2Sy15T0xjSEJB",
+            "source": "Google News Wirtschaft CH"
+          }
+        ],
+        "score": "A"
+      },
+      {
+        "title": "USA-Zölle gegen die Schweiz: Was jetzt gilt – FAQ für Unternehmen",
+        "why_now": "Zu US-Zöllen und der Rechtsgrundlage IEEPA gibt es gerade viel Unsicherheit – und entsprechend hohe Suchnachfrage mit schwacher Klickrate auf bestehende Treffer. Gleichzeitig bleibt das Thema im Newsflow präsent, wodurch ein laufend aktualisierbarer Überblick als „Single Source of Truth“ besonders wertvoll wird. Ein Schweiz-FAQ übersetzt die US-Entwicklungen in konkrete To-dos für Export, Import und Compliance.",
+        "category": "Steuern & Recht",
+        "signals": {
+          "ga4": "Der „Trump Ticker“ liefert stabile Evergreen-Reichweite, trifft aber die Suchintention nach schnellen Antworten oft nicht. → Ein FAQ/Pillar bündelt Updates und beantwortet die typischen „Was gilt jetzt?“-Fragen aus Schweizer Unternehmenssicht.",
+          "gsc": "Viele Impressions bei generischen Queries wie „zölle schweiz usa“, „trump zölle schweiz“, „supreme court zölle“ bei CTR ~1–2% trotz Position ~5–7. → Eine klar strukturierte FAQ-Seite mit Snippet-tauglichen Antworten kann die CTR-Lücke direkt adressieren.",
+          "rss": ""
+        },
+        "rss_links": [],
+        "score": "B"
+      },
+      {
+        "title": "Trump-Ticker neu gedacht: Key Takeaways, Sprungmarken und klare Zeitachse",
+        "why_now": "Der bestehende Handelspolitik-Ticker rankt bereits gut, verschenkt aber Klicks, weil das Snippet nicht sofort Antworten liefert. Bei anhaltend dynamischer US-Handelspolitik ist ein Update-Format nötig, das Aktualität mit „Intent-Optimierung“ verbindet: oben Kernaussagen, darunter Themenblöcke und Zeitachse. So wird der Ticker zur Einstiegsseite für generische Suchanfragen.",
+        "category": "Politik & Regulierung",
+        "signals": {
+          "ga4": "Der Ticker ist über 90 Tage stabil (Evergreen), aber Engagement bei einzelnen Subthemen teils unterdurchschnittlich. → Bessere Leseführung (Key Takeaways, Sprungmarken) erhöht Nutzwert und Verweildauer ohne neue Recherchelast.",
+          "gsc": "Fast-Ranker /de/artikel/news-ticker-handelspolitik-tr…: 5585 Impressions, CTR 1.5%, Position 7.5. → Struktur-Update zielt direkt auf Snippet-Relevanz und sollte die CTR bei gleichbleibender Position spürbar steigern.",
+          "rss": ""
+        },
+        "rss_links": [],
+        "score": "B"
+      },
+      {
+        "title": "IEEPA-Urteil erklärt: Was Schweizer Firmen jetzt in Verträgen absichern sollten",
+        "why_now": "Das Thema „Supreme Court/IEEPA-Zölle“ erzeugt Aufmerksamkeit, aber Leser:innen brauchen vor allem konkrete Handlungsanleitungen für die nächsten 30/90 Tage. Genau hier zeigt die Performance, dass die bestehende News noch nicht genug Praxisnutzen liefert. Ein Update zum Explainer schliesst diese Lücke: Verträge, Preise, Incoterms, Lieferketten und Dokumentation.",
+        "category": "Steuern & Recht",
+        "signals": {
+          "ga4": "Der Artikel „Supreme Court stoppt IEEPA-Zölle“ hat Views, aber nur ~50% Engagement. → Ein Praxis-Explainer erhöht die Relevanz nach dem Klick („Was heisst das konkret?“) und verbessert die Nutzersignale.",
+          "gsc": "Die Query „supreme court zölle“ ist sichtbar (Position ~5–6), aber ausbaufähig. → Ein „Was bedeutet das für Schweizer Firmen?“-Format passt zur Suchintention und kann mehr Klicks/Longtail abholen.",
+          "rss": ""
+        },
+        "rss_links": [],
+        "score": "B"
+      },
+      {
+        "title": "Mbaer und das US-Finanzsystem: Was USD-Clearing für Firmen riskant macht",
+        "why_now": "Der Fall Mbaer zeigt, wie schnell US-Sanktionen und der Zugang zum Dollar-Zahlungssystem zum systemischen Risiko werden können. Das betrifft nicht nur Banken, sondern auch Unternehmen mit USD-Zahlungen, Trade Finance und internationalen Lieferketten. Ein praktischer Explainer kommt genau dann, wenn das Thema in den grossen Wirtschaftsmedien hochkocht.",
+        "category": "Finanzplatz & Compliance",
+        "signals": {
+          "ga4": "Policy-/Explainer-Inhalte performen bei euch besonders stark, wenn sie „Überblick/Stand/Einordnung“ liefern. → Der Mbaer-Fall eignet sich für ein Schritt-für-Schritt-Stück zu Korrespondenzbanken, USD-Clearing und Compliance-Ketten.",
+          "gsc": "",
+          "rss": "Aktuelle Berichte zu Mbaer und einem möglichen Ausschluss aus dem US-Finanzsystem (NZZ, Tages-Anzeiger). → Hohe Nachrichtenpräsenz schafft Relevanz; ein Schweiz-Explainer übersetzt die Story in konkrete Unternehmensrisiken und Prävention."
+        },
+        "rss_links": [
+          {
+            "title": "USA wollen Schweizer Bank kaltstellen. Sie werfen Mbaer Geschäfte mit Iran und Russland vor",
+            "url": "https://www.nzz.ch/wirtschaft/us-finanzministerium-wirft-schweizer-bank-geschaefte-mit-iran-und-russland-vor-ld.1926821",
+            "source": "NZZ Wirtschaft"
+          },
+          {
+            "title": "Verbindungen zu Iran und Russland: US-Finanz­ministerium droht Schweizer Bank mit Ausschluss",
+            "url": "https://www.tagesanzeiger.ch/mbaer-us-finanzministerium-droht-schweizer-bank-mit-ausschluss-352903486089",
+            "source": "Tages-Anzeiger Wirtschaft"
+          }
+        ],
+        "score": "B"
+      }
+    ]
+  },
+  {
+    "generated_at": "2026-02-27T08:20:26.956624",
+    "ideas": [
+      {
+        "title": "Supreme Court stoppt IEEPA-Zölle: Was Schweizer Exporteure jetzt konkret tun müssen",
+        "why_now": "Der Supreme-Court-Stop bremst zwar IEEPA-basierte Zölle, löst aber die Planungsunsicherheit für Lieferketten und Preisgestaltung nicht. In der Suche sehen wir hohe Nachfrage nach „Zölle Schweiz USA“, aber eine niedrige CTR – Leser wollen konkrete Folgen und Handlungsanweisungen. Ein Update-Artikel als zentrale Landing kann diese Intent-Lücke schliessen und die bestehende Sichtbarkeit in Klicks umwandeln.",
+        "category": "Handelspolitik & Export",
+        "signals": {
+          "ga4": "Handelspolitik-Inhalte ziehen in GA4 wiederkehrend Traffic, das Engagement ist teils schwach. → Begründung: Ein nutzwertiger „Was tun jetzt?“-Aufbau (Checklisten, Szenarien, Vertrags-/Incoterms-Hinweise) passt besser zur Erwartung und erhöht Verweildauer.",
+          "gsc": "„US-Zölle & Schweizer Wirtschaft“: 3’970 Impressionen, Position 5.7, CTR 2.04%; mehrere „zölle schweiz usa“-Queries mit Pos ~5, aber niedriger CTR. → Begründung: Hohe Sichtbarkeit bei zu wenig Klicks deutet auf Snippet-/Inhaltslücke; ein Update mit klarer Entscheidungslogik trifft die Suchintention.",
+          "rss": "Anhaltender Nachrichtenstrom zur US-Handelspolitik/Regulierung (IEEPA/Supreme-Court-Kontext) im Feed-Signal. → Begründung: Die Lage bleibt dynamisch; ein Update-Format hält die Seite aktuell und suchrelevant."
+        },
+        "rss_links": [],
+        "score": "A"
+      },
+      {
+        "title": "Trump-Ticker als SEO-Landing: Stand heute, Glossar und FAQ zu US-Zöllen",
+        "why_now": "Der Ticker hat hohe Sichtbarkeit, aber die Klickrate ist schwach – ein klares Zeichen, dass Nutzer schnelle Antworten statt Chronologie erwarten. Gleichzeitig bleibt US-Handelspolitik ein Dauerbrenner, wodurch eine stabile „Stand heute“-Landing mit Update-Logik besonders wertvoll wird. Jetzt ist der richtige Zeitpunkt, das Format so umzubauen, dass es sowohl News- als auch Suchintention bedient.",
+        "category": "US-Politik & Märkte",
+        "signals": {
+          "ga4": "Der „Trump-Ticker“ erzielt in GA4 ordentliche Views, aber nur mittleres Engagement. → Begründung: Eine strukturierte Landing (TOC, FAQ, Glossar, Sprungmarken) reduziert Absprünge und erhöht Nutzwert pro Besuch.",
+          "gsc": "„Trump-Ticker“: 5’585 Impressionen, Position 7.5, CTR 1.5%. → Begründung: Hohe Impressionen bei sehr niedriger CTR sprechen für Snippet- und Struktur-Optimierung (FAQ/Glossar-Elemente, „Stand heute“ im Titel/Meta).",
+          "rss": "Wiederkehrender Nachrichtenstrom zur US-Handelspolitik (Zölle/Regulierung) als dauerhaftes RSS-Signal. → Begründung: Ein Update-Hub kann laufend ergänzt werden und verhindert Duplikate einzelner Kurzmeldungen."
+        },
+        "rss_links": [],
+        "score": "A"
+      },
+      {
+        "title": "Alphabet emittiert Franken-Anleihen: Was das über den starken CHF verrät",
+        "why_now": "Die Milliardenaufnahme von Alphabet in Franken ist ein aktueller, greifbarer News-Hook, um den Schweizer Kapitalmarkt zu erklären. Gleichzeitig ist „Franken“ als Trendthema identifiziert, taucht aber in unseren GSC-Top-Queries kaum auf – wir verschenken Sichtbarkeit. Ein Analyse-Stück kann als Einstieg in einen „Franken“-Hub dienen und langfristig Suchnachfrage abholen.",
+        "category": "Finanzmärkte",
+        "signals": {
+          "ga4": "",
+          "gsc": "„Franken“ ist als Trendthema identifiziert, in den GSC-Top-Queries aber kaum sichtbar. → Begründung: Eine starke Einstiegsanalyse mit News-Anker kann neue Rankings aufbauen und als Hub-Seite interne Verlinkung bündeln.",
+          "rss": "Tages-Anzeiger berichtet: „Begehrter Schweizer Franken: … warum Alphabet jetzt Milliarden Franken einsammelt“. → Begründung: Der konkrete Emittent/Deal liefert Aktualität und Suchanlass für eine erklärende Einordnung."
+        },
+        "rss_links": [
+          {
+            "title": "Begehrter Schweizer Franken: Googles Wette auf die Ewigkeit: Warum Alphabet jetzt Milliarden Franken einsammelt",
+            "url": "https://www.tagesanzeiger.ch/alphabet-google-mutter-sammelt-3-milliarden-franken-ein-831088543890",
+            "source": "Tages-Anzeiger Wirtschaft"
+          }
+        ],
+        "score": "B"
+      },
+      {
+        "title": "Holcim in Nigeria: Wie Währungsrisiken Gewinne zerstören – und wie Firmen gegensteuern",
+        "why_now": "Holcims Gewinneinbruch wegen Währungsverlusten macht FX-Risiken für Schweizer Konzerne plötzlich sehr konkret. Leser reagieren laut Performance-Muster besonders gut auf strukturierte Erklärstücke mit Governance- und Praxisbezug – genau das liefert diese Fallstudie. Der Zeitpunkt ist ideal, weil die Newslage die Aufmerksamkeit bereits auf das Thema lenkt.",
+        "category": "Unternehmen",
+        "signals": {
+          "ga4": "Erklärende, strukturierte Inhalte (u.a. rund um Publikationen/Downloads und Swiss Code) performen stark. → Begründung: Eine FX-Fallstudie mit Governance-/Risikosteuerungs-Framework trifft dieses Nutzungs- und Erwartungsmuster.",
+          "gsc": "",
+          "rss": "SRF und Tages-Anzeiger melden Holcims Gewinneinbruch durch Währungsverluste in Nigeria. → Begründung: Der aktuelle Case liefert Anlass und Datenpunkte, um Translation vs. Transaction Exposure und Gegenmassnahmen praxisnah zu erklären."
+        },
+        "rss_links": [
+          {
+            "title": "Jahreszahlen 2025 – Währungsverluste in Nigeria lassen Holcim-Gewinn einbrechen",
+            "url": "https://www.srf.ch/news/wirtschaft/jahreszahlen-2025-waehrungsverluste-in-nigeria-lassen-holcim-gewinn-einbrechen",
+            "source": "SRF Wirtschaft"
+          },
+          {
+            "title": "Wegen Nigeria-Geschäft: Holcim 2025 mit Gewinneinbruch",
+            "url": "https://www.tagesanzeiger.ch/holcim-reingewinn-faellt-auf-387-millionen-franken-467986524526",
+            "source": "Tages-Anzeiger Wirtschaft"
+          }
+        ],
+        "score": "B"
+      },
+      {
+        "title": "EU-Stromabkommen: Was sich bei Winterstrom, Reserven und Investitionen wirklich ändern würde",
+        "why_now": "Mit Bilaterale III rückt ein Stromabkommen politisch näher – und Swissgrid warnt vor Isolation, was die Debatte zuspitzt. Gleichzeitig zeigt ein FR-Dossier in der Search Console bereits starke Rankings (Fast-Ranker), was auf echte Suchnachfrage hindeutet. Ein DE-Artikel mit klarem Fokus auf Versorgungssicherheit kann diese Nachfrage gezielt abholen und intern mehrsprachig vernetzen.",
+        "category": "Energie",
+        "signals": {
+          "ga4": "",
+          "gsc": "FR-Dossier „Bilatérales III“ ist ein Fast-Ranker (Position 4.0, 356 Impressionen). → Begründung: Sichtbare Nachfrage ist vorhanden; ein DE-Pendant mit Stromfokus erweitert Reichweite und stärkt die Themenautorität.",
+          "rss": "Tages-Anzeiger: „Bilaterale III vor Unterzeichnung: Wenn wir unseren Strom sichern wollen, gibt es nur einen Weg“. → Begründung: Aktueller Trigger mit klarer Versorgungssicherheits-These eignet sich für eine Mechanismen-Analyse (Netzintegration, Regelenergie, Engpässe)."
+        },
+        "rss_links": [
+          {
+            "title": "Bilaterale III vor Unterzeichnung: Wenn wir unseren Strom sichern wollen, gibt es nur einen Weg",
+            "url": "https://www.tagesanzeiger.ch/stromabkommen-swissgrid-warnt-vor-isolation-der-schweiz-256365770394",
+            "source": "Tages-Anzeiger Wirtschaft"
+          }
+        ],
+        "score": "B"
+      }
+    ]
+  }
+]
